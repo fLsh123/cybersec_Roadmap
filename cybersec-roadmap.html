@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CyberSec Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#020508;
+  --bg2:#060d14;
+  --panel:#0a1520;
+  --panel2:#0d1c2e;
+  --border:#1a3a5c;
+  --border2:#1e4a70;
+  --cyan:#00e5ff;
+  --cyan2:#00b8d4;
+  --green:#39ff14;
+  --green2:#2dd609;
+  --yellow:#ffe600;
+  --orange:#ff6b2b;
+  --red:#ff2d55;
+  --purple:#bf5af2;
+  --text:#c8dce8;
+  --text2:#5a7a8a;
+  --text3:#2a4a5a;
+  --mono:'Share Tech Mono',monospace;
+  --display:'Orbitron',sans-serif;
+  --body:'Exo 2',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:crosshair;
+  padding-bottom:70px;
+}
+
+/* Scanline overlay */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,229,255,0.015) 2px,
+    rgba(0,229,255,0.015) 4px
+  );
+  pointer-events:none;
+  z-index:1000;
+}
+
+/* Grid background */
+.grid-bg{
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Canvas for particles */
+#canvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* HEADER */
+header{
+  position:relative;
+  z-index:10;
+  padding:40px 60px 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo-area{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.logo-tag{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--cyan);
+  letter-spacing:3px;
+  opacity:.7;
+}
+
+.logo-main{
+  font-family:var(--display);
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:4px;
+  color:#fff;
+  text-shadow:0 0 30px rgba(0,229,255,0.5), 0 0 60px rgba(0,229,255,0.2);
+}
+
+.logo-main span{color:var(--cyan);}
+
+.nav-pills{
+  display:flex;
+  gap:8px;
+}
+
+.nav-pill{
+  font-family:var(--mono);
+  font-size:11px;
+  padding:7px 18px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text2);
+  cursor:pointer;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  transition:all .3s;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.nav-pill:hover,.nav-pill.active{
+  border-color:var(--cyan);
+  color:var(--cyan);
+  background:rgba(0,229,255,0.06);
+  box-shadow:0 0 12px rgba(0,229,255,0.15);
+}
+
+/* HERO */
+.hero{
+  position:relative;
+  z-index:10;
+  padding:60px 60px 30px;
+  max-width:900px;
+}
+
+.hero-eyebrow{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--green);
+  letter-spacing:3px;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.hero-eyebrow::before{
+  content:'';
+  display:block;
+  width:40px;
+  height:1px;
+  background:var(--green);
+  box-shadow:0 0 8px var(--green);
+}
+
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(36px,5vw,64px);
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:2px;
+  margin-bottom:20px;
+}
+
+.hero h1 .line1{color:#fff;}
+.hero h1 .line2{
+  color:transparent;
+  -webkit-text-stroke:1px var(--cyan);
+  text-stroke:1px var(--cyan);
+  display:block;
+}
+
+.hero p{
+  font-size:15px;
+  font-weight:300;
+  color:var(--text2);
+  line-height:1.8;
+  max-width:600px;
+  margin-bottom:30px;
+}
+
+.hero-cta{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.btn-primary{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:2px;
+  padding:14px 32px;
+  background:var(--cyan);
+  color:#020508;
+  border:none;
+  cursor:pointer;
+  font-weight:700;
+  transition:all .3s;
+  text-transform:uppercase;
+  clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+
+.btn-primary:hover{
+  background:var(--green);
+  box-shadow:0 0 24px rgba(57,255,20,0.4);
+  transform:translateY(-1px);
+}
+
+.btn-secondary{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:2px;
+  padding:14px 32px;
+  background:transparent;
+  color:var(--cyan);
+  border:1px solid var(--cyan);
+  cursor:pointer;
+  transition:all .3s;
+  text-transform:uppercase;
+}
+
+.btn-secondary:hover{
+  background:rgba(0,229,255,0.08);
+  box-shadow:0 0 16px rgba(0,229,255,0.2);
+}
+
+/* STATS BAR */
+.stats-bar{
+  position:relative;
+  z-index:10;
+  margin:20px 60px 50px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  display:flex;
+  overflow:hidden;
+}
+
+.stats-bar::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  opacity:.5;
+}
+
+.stat-item{
+  flex:1;
+  padding:20px 24px;
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.stat-item:last-child{border-right:none;}
+
+.stat-num{
+  font-family:var(--display);
+  font-size:28px;
+  font-weight:700;
+  color:var(--cyan);
+  text-shadow:0 0 20px rgba(0,229,255,0.4);
+  line-height:1;
+}
+
+.stat-label{
+  font-family:var(--mono);
+  font-size:10px;
+  color:var(--text3);
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+/* PHASE FILTER */
+.phase-filter{
+  position:relative;
+  z-index:10;
+  padding:0 60px;
+  margin-bottom:30px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.phase-btn{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:2px;
+  padding:8px 20px;
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--text2);
+  cursor:pointer;
+  transition:all .25s;
+  text-transform:uppercase;
+}
+
+.phase-btn:hover,.phase-btn.active{
+  border-color:var(--yellow);
+  color:var(--yellow);
+  background:rgba(255,230,0,0.05);
+  box-shadow:0 0 10px rgba(255,230,0,0.1);
+}
+
+/* ROADMAP GRID */
+.roadmap{
+  position:relative;
+  z-index:10;
+  padding:0 60px 80px;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+
+/* PHASE SECTION */
+.phase{
+  margin-bottom:16px;
+  opacity:0;
+  transform:translateY(30px);
+  transition:all .6s ease;
+}
+
+.phase.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.phase-header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:16px;
+  padding:14px 20px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-left:3px solid var(--phase-color,var(--cyan));
+  position:relative;
+  overflow:hidden;
+}
+
+.phase-header::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(var(--phase-rgb,0,229,255),0.06),transparent);
+  pointer-events:none;
+}
+
+.phase-num{
+  font-family:var(--display);
+  font-size:36px;
+  font-weight:900;
+  color:var(--phase-color,var(--cyan));
+  opacity:.3;
+  line-height:1;
+  min-width:50px;
+}
+
+.phase-info{flex:1;}
+
+.phase-title{
+  font-family:var(--display);
+  font-size:14px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:3px;
+}
+
+.phase-sub{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--text2);
+  letter-spacing:1px;
+}
+
+.phase-xp{
+  font-family:var(--display);
+  font-size:12px;
+  color:var(--phase-color,var(--cyan));
+  letter-spacing:2px;
+}
+
+/* NODES GRID */
+.nodes{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:10px;
+  margin-bottom:10px;
+}
+
+/* NODE CARD */
+.node{
+  background:var(--panel);
+  border:1px solid var(--border);
+  padding:18px;
+  cursor:pointer;
+  transition:all .25s;
+  position:relative;
+  overflow:hidden;
+  user-select:none;
+}
+
+.node::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:var(--node-color,var(--cyan));
+  opacity:0;
+  transition:opacity .25s;
+  box-shadow:0 0 10px var(--node-color,var(--cyan));
+}
+
+.node:hover{
+  border-color:var(--node-color,var(--cyan));
+  background:var(--panel2);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(var(--node-rgb,0,229,255),0.1);
+}
+
+.node:hover::before{opacity:1;}
+
+.node.done{
+  border-color:rgba(57,255,20,0.3);
+  background:rgba(57,255,20,0.03);
+}
+
+.node.done::before{opacity:1;background:var(--green);box-shadow:0 0 10px var(--green);}
+
+.node-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:10px;
+  gap:10px;
+}
+
+.node-icon{
+  font-size:20px;
+  line-height:1;
+  flex-shrink:0;
+}
+
+.node-tags{
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.node-tag{
+  font-family:var(--mono);
+  font-size:8px;
+  padding:2px 7px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  border:1px solid;
+  border-radius:0;
+}
+
+.tag-free{color:var(--green);border-color:rgba(57,255,20,0.3);background:rgba(57,255,20,0.06);}
+.tag-paid{color:var(--yellow);border-color:rgba(255,230,0,0.3);background:rgba(255,230,0,0.05);}
+.tag-cert{color:var(--purple);border-color:rgba(191,90,242,0.3);background:rgba(191,90,242,0.06);}
+.tag-tool{color:var(--orange);border-color:rgba(255,107,43,0.3);background:rgba(255,107,43,0.06);}
+.tag-must{color:var(--red);border-color:rgba(255,45,85,0.3);background:rgba(255,45,85,0.06);}
+
+.node-title{
+  font-family:var(--display);
+  font-size:12px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:1px;
+  margin-bottom:6px;
+  line-height:1.3;
+}
+
+.node-desc{
+  font-size:11px;
+  color:var(--text2);
+  line-height:1.7;
+  margin-bottom:12px;
+}
+
+.node-resources{
+  border-top:1px solid var(--border);
+  padding-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.node-res{
+  font-family:var(--mono);
+  font-size:10px;
+  color:var(--text3);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition:color .2s;
+}
+
+.node-res::before{content:'>';color:var(--node-color,var(--cyan));opacity:.5;}
+.node:hover .node-res{color:var(--text2);}
+
+.node-footer{
+  margin-top:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.node-check{
+  width:22px;height:22px;
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  font-size:11px;
+  color:transparent;
+  transition:all .2s;
+  flex-shrink:0;
+}
+
+.node.done .node-check{
+  border-color:var(--green);
+  color:var(--green);
+  background:rgba(57,255,20,0.1);
+  box-shadow:0 0 8px rgba(57,255,20,0.2);
+}
+
+.node-time{
+  font-family:var(--mono);
+  font-size:9px;
+  color:var(--text3);
+  letter-spacing:1px;
+}
+
+/* DETAIL PANEL */
+.detail-panel{
+  position:fixed;
+  right:0;top:0;bottom:0;
+  width:400px;
+  background:var(--bg2);
+  border-left:1px solid var(--border2);
+  z-index:500;
+  transform:translateX(100%);
+  transition:transform .35s cubic-bezier(0.4,0,0.2,1);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.detail-panel.open{transform:translateX(0);}
+
+.detail-panel-inner{padding:30px;flex:1;}
+
+.detail-close{
+  position:absolute;
+  top:20px;right:20px;
+  width:32px;height:32px;
+  border:1px solid var(--border);
+  background:none;
+  color:var(--text2);
+  cursor:pointer;
+  font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+  font-family:var(--mono);
+}
+
+.detail-close:hover{border-color:var(--red);color:var(--red);}
+
+.detail-phase-label{
+  font-family:var(--mono);
+  font-size:10px;
+  color:var(--detail-color,var(--cyan));
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+  opacity:.7;
+}
+
+.detail-title{
+  font-family:var(--display);
+  font-size:20px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:2px;
+  margin-bottom:16px;
+  line-height:1.3;
+}
+
+.detail-desc{
+  font-size:13px;
+  line-height:1.9;
+  color:var(--text2);
+  margin-bottom:24px;
+}
+
+.detail-section{
+  margin-bottom:20px;
+}
+
+.detail-section-title{
+  font-family:var(--mono);
+  font-size:10px;
+  color:var(--detail-color,var(--cyan));
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  padding-bottom:6px;
+  border-bottom:1px solid var(--border);
+}
+
+.detail-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  margin-bottom:6px;
+  text-decoration:none;
+  transition:all .2s;
+  cursor:pointer;
+}
+
+.detail-link:hover{
+  border-color:var(--detail-color,var(--cyan));
+  background:var(--panel2);
+}
+
+.detail-link-icon{font-size:14px;}
+
+.detail-link-info{flex:1;}
+
+.detail-link-name{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--text);
+  display:block;
+  margin-bottom:2px;
+}
+
+.detail-link-sub{
+  font-size:10px;
+  color:var(--text3);
+}
+
+.detail-link-tag{
+  font-family:var(--mono);
+  font-size:9px;
+  padding:2px 7px;
+  color:var(--green);
+  border:1px solid rgba(57,255,20,0.3);
+}
+
+.detail-mark-btn{
+  width:100%;
+  padding:14px;
+  font-family:var(--display);
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  border:1px solid var(--detail-color,var(--cyan));
+  color:var(--detail-color,var(--cyan));
+  background:rgba(var(--detail-rgb,0,229,255),0.05);
+  cursor:pointer;
+  transition:all .3s;
+  margin-top:10px;
+}
+
+.detail-mark-btn:hover,.detail-mark-btn.done{
+  background:var(--detail-color,var(--cyan));
+  color:#020508;
+}
+
+/* PROGRESS TRACKER */
+.progress-bar-global{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:200;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  padding:14px 60px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.progress-label{
+  font-family:var(--display);
+  font-size:11px;
+  color:var(--cyan);
+  letter-spacing:2px;
+  white-space:nowrap;
+}
+
+.progress-track{
+  flex:1;
+  height:4px;
+  background:var(--border);
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--cyan),var(--green));
+  transition:width .5s ease;
+  box-shadow:0 0 10px rgba(0,229,255,0.4);
+}
+
+.progress-pct{
+  font-family:var(--display);
+  font-size:14px;
+  font-weight:700;
+  color:var(--green);
+  white-space:nowrap;
+  min-width:50px;
+}
+
+/* SPECIALISM TRACKS */
+.tracks-section{
+  position:relative;
+  z-index:10;
+  padding:0 60px 40px;
+}
+
+.section-eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--cyan);
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  opacity:.6;
+}
+
+.section-heading{
+  font-family:var(--display);
+  font-size:24px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:3px;
+  margin-bottom:24px;
+}
+
+.tracks-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:10px;
+}
+
+.track-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-top:2px solid var(--track-color,var(--cyan));
+  padding:20px;
+  cursor:pointer;
+  transition:all .25s;
+  text-align:center;
+}
+
+.track-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(0,0,0,0.5);
+  background:var(--panel2);
+}
+
+.track-icon{font-size:28px;margin-bottom:10px;}
+
+.track-title{
+  font-family:var(--display);
+  font-size:11px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.track-desc{
+  font-size:11px;
+  color:var(--text2);
+  line-height:1.6;
+  margin-bottom:12px;
+}
+
+.track-certs{
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.track-cert{
+  font-family:var(--mono);
+  font-size:8px;
+  padding:2px 8px;
+  border:1px solid var(--track-color,var(--cyan));
+  color:var(--track-color,var(--cyan));
+  letter-spacing:1px;
+  opacity:.7;
+}
+
+/* OVERLAY */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(2,5,8,0.6);
+  backdrop-filter:blur(2px);
+  z-index:450;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .35s;
+}
+
+.overlay.show{opacity:1;pointer-events:all;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);}
+::-webkit-scrollbar-thumb:hover{background:var(--cyan);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  header,
+  .hero,
+  .stats-bar,
+  .phase-filter,
+  .roadmap,
+  .tracks-section{padding-left:20px;padding-right:20px;}
+  .stats-bar{flex-wrap:wrap;}
+  .stat-item{border-right:none;border-bottom:1px solid var(--border);min-width:50%;}
+  .detail-panel{width:100%;}
+  .progress-bar-global{padding:12px 20px;}
+}
+
+/* ANIMATIONS */
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:.85}}
+@keyframes pulse{0%,100%{box-shadow:0 0 10px rgba(0,229,255,0.3)}50%{box-shadow:0 0 20px rgba(0,229,255,0.6)}}
+@keyframes scanline{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+
+.glow-pulse{animation:pulse 2s ease infinite;}
+
+/* Type animation */
+.typewriter{
+  overflow:hidden;
+  border-right:2px solid var(--cyan);
+  white-space:nowrap;
+  animation:typing 2s steps(30,end) forwards, blink .7s step-end infinite;
+}
+
+@keyframes typing{from{width:0}to{width:100%}}
+@keyframes blink{50%{border-color:transparent}}
+
+/* Phase connector lines */
+.phase-connector{
+  display:flex;
+  justify-content:center;
+  margin:4px 0;
+  opacity:.3;
+}
+
+.connector-line{
+  width:1px;
+  height:24px;
+  background:linear-gradient(to bottom, var(--cyan), transparent);
+}
+
+/* CATEGORY LABELS */
+.cat-divider{
+  font-family:var(--mono);
+  font-size:10px;
+  color:var(--text3);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:8px 0 4px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  grid-column:1/-1;
+}
+
+.cat-divider::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--border);
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<canvas id="canvas"></canvas>
+
+<div class="overlay" id="overlay" onclick="closeDetail()"></div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-panel-inner" id="detailContent"></div>
+  <button class="detail-close" onclick="closeDetail()">✕</button>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-area">
+    <div class="logo-tag">> INITIALIZING SYSTEM...</div>
+    <div class="logo-main">CYBER<span>SEC</span> MAP</div>
+  </div>
+  <nav class="nav-pills">
+    <a href="#roadmap" class="nav-pill active">📡 Roadmap</a>
+    <a href="#tracks" class="nav-pill">🎯 Tracks</a>
+    <a href="#bookmarks" class="nav-pill" onclick="showBookmarks()">🔖 My Bookmarks</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Your Complete Learning Path</div>
+  <h1>
+    <span class="line1">BECOME A</span>
+    <span class="line2">CYBERSECURITY EXPERT</span>
+  </h1>
+  <p>A structured, interactive roadmap from zero to elite. Click any node to explore resources, tools, and certifications. Track your progress as you go.</p>
+  <div class="hero-cta">
+    <button class="btn-primary" onclick="document.getElementById('roadmap').scrollIntoView({behavior:'smooth'})">Start Learning</button>
+    <button class="btn-secondary" onclick="resetProgress()">Reset Progress</button>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num" id="stat-nodes">50+</div><div class="stat-label">Learning Nodes</div></div>
+  <div class="stat-item"><div class="stat-num" id="stat-done">0</div><div class="stat-label">Completed</div></div>
+  <div class="stat-item"><div class="stat-num">5</div><div class="stat-label">Phases</div></div>
+  <div class="stat-item"><div class="stat-num">22+</div><div class="stat-label">Certifications</div></div>
+  <div class="stat-item"><div class="stat-num">100+</div><div class="stat-label">Resources</div></div>
+</div>
+
+<!-- PHASE FILTER -->
+<div class="phase-filter" id="roadmap">
+  <button class="phase-btn active" onclick="filterPhase('all',this)">All Phases</button>
+  <button class="phase-btn" onclick="filterPhase('1',this)">Phase 1: Foundation</button>
+  <button class="phase-btn" onclick="filterPhase('2',this)">Phase 2: Core Skills</button>
+  <button class="phase-btn" onclick="filterPhase('3',this)">Phase 3: Intermediate</button>
+  <button class="phase-btn" onclick="filterPhase('4',this)">Phase 4: Specialization</button>
+  <button class="phase-btn" onclick="filterPhase('5',this)">Phase 5: Expert</button>
+</div>
+
+<!-- ROADMAP -->
+<div class="roadmap" id="roadmapContainer"></div>
+
+<!-- SPECIALIZATION TRACKS -->
+<section class="tracks-section" id="tracks">
+  <div class="section-eyebrow">After Phase 3</div>
+  <div class="section-heading">SPECIALIZATION TRACKS</div>
+  <div class="tracks-grid" id="tracksGrid"></div>
+</section>
+
+<!-- BOOKMARKS SECTION -->
+<section class="tracks-section" id="bookmarks" style="display:none">
+  <div class="section-eyebrow">Imported from your browser</div>
+  <div class="section-heading">YOUR BOOKMARKS</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px" id="bm-cat-filters"></div>
+  <div style="margin-bottom:16px"><input type="text" id="bm-search" placeholder="Search bookmarks..." oninput="filterBookmarks()" style="max-width:400px;background:var(--panel);border:1px solid var(--border);border-radius:0;padding:10px 14px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;width:100%"/></div>
+  <div id="bm-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px"></div>
+</section>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-global">
+  <div class="progress-label">PROGRESS</div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-pct" id="progressPct">0%</div>
+</div>
+
+<script>
+// ─── DATA ──────────────────────────────────────────────────────────────────
+
+const PHASES = [
+  {
+    id:'1',
+    num:'01',
+    title:'Foundations',
+    sub:'Start here — no experience needed',
+    color:'#00e5ff',
+    rgb:'0,229,255',
+    xp:'+500 XP',
+    nodes:[
+      {id:'n1',icon:'🌐',title:'Networking Basics',desc:'Understand how the internet works. TCP/IP, DNS, HTTP, OSI layers, subnetting. This is the backbone of everything.',tags:['must'],time:'4-6 weeks',
+        resources:[{name:'Cisco NetAcad',url:'https://netacad.com',tag:'free'},{name:'Professor Messer Net+',url:'https://professormesser.com',tag:'free'},{name:'TryHackMe Pre-Security',url:'https://tryhackme.com',tag:'free'}]},
+      {id:'n2',icon:'🐧',title:'Linux Fundamentals',desc:'Command line mastery. File systems, permissions, processes, scripting. All security tools run on Linux.',tags:['must'],time:'3-4 weeks',
+        resources:[{name:'OverTheWire: Bandit',url:'https://overthewire.org',tag:'free'},{name:'Linux Journey',url:'https://linuxjourney.com',tag:'free'},{name:'TryHackMe Linux Path',url:'https://tryhackme.com',tag:'free'}]},
+      {id:'n3',icon:'🪟',title:'Windows Fundamentals',desc:'Active Directory, PowerShell, registry, event logs. Most enterprise targets run Windows.',tags:['must'],time:'2-3 weeks',
+        resources:[{name:'THM Windows Fundamentals',url:'https://tryhackme.com',tag:'free'},{name:'Microsoft Learn',url:'https://learn.microsoft.com',tag:'free'}]},
+      {id:'n4',icon:'🐍',title:'Python for Security',desc:'Automate tasks, build tools, write exploits. Python is the hacker\'s scripting language of choice.',tags:['must'],time:'4-6 weeks',
+        resources:[{name:'Automate the Boring Stuff',url:'https://automatetheboringstuff.com',tag:'free'},{name:'HackerSploit Python Series',url:'https://youtube.com/@HackerSploit',tag:'free'}]},
+      {id:'n5',icon:'🔒',title:'Security Concepts 101',desc:'CIA triad, authentication, authorization, encryption basics, threat models, risk management fundamentals.',tags:['must'],time:'2 weeks',
+        resources:[{name:'NIST Cybersecurity Framework',url:'https://nist.gov/cyberframework',tag:'free'},{name:'Cybrary Free Courses',url:'https://cybrary.it',tag:'free'}]},
+      {id:'n6',icon:'📜',title:'CompTIA A+',desc:'Foundation IT certification covering hardware, OS, networking, and basic security. Often required before Security+.',tags:['cert'],time:'8-10 weeks',
+        resources:[{name:'Professor Messer A+',url:'https://professormesser.com',tag:'free'},{name:'Mike Meyers Udemy Course',url:'https://udemy.com',tag:'paid'}]},
+    ]
+  },
+  {
+    id:'2',
+    num:'02',
+    title:'Core Security',
+    sub:'Build your security foundation',
+    color:'#39ff14',
+    rgb:'57,255,20',
+    xp:'+1200 XP',
+    nodes:[
+      {id:'n7',icon:'🔑',title:'CompTIA Network+',desc:'Networking certification covering protocols, routing, switching, and troubleshooting. Essential before Security+.',tags:['cert'],time:'6-8 weeks',
+        resources:[{name:'Professor Messer N+',url:'https://professormesser.com',tag:'free'},{name:'Jason Dion Udemy',url:'https://udemy.com',tag:'paid'}]},
+      {id:'n8',icon:'🛡️',title:'CompTIA Security+',desc:'The #1 entry-level security cert. Covers threats, crypto, risk management, incident response. DoD baseline cert.',tags:['cert','must'],time:'8-10 weeks',
+        resources:[{name:'Professor Messer Sec+',url:'https://professormesser.com',tag:'free'},{name:'Jason Dion Practice Tests',url:'https://udemy.com',tag:'paid'},{name:'CompTIA CertMaster',url:'https://comptia.org',tag:'paid'}]},
+      {id:'n9',icon:'🔭',title:'Packet Analysis',desc:'Read and analyze network traffic with Wireshark. Identify protocols, spot anomalies, detect attacks in pcaps.',tags:['tool'],time:'3-4 weeks',
+        resources:[{name:'Wireshark Official',url:'https://wireshark.org',tag:'free'},{name:'Wireshark Display Filters',url:'https://wiki.wireshark.org',tag:'free'},{name:'Chris Greer YouTube',url:'https://youtube.com',tag:'free'}]},
+      {id:'n10',icon:'🗺️',title:'Network Scanning',desc:'Discover hosts, enumerate services, fingerprint OS. Nmap is your reconnaissance workhorse.',tags:['tool'],time:'2 weeks',
+        resources:[{name:'Nmap Official Docs',url:'https://nmap.org',tag:'free'},{name:'TryHackMe Nmap Room',url:'https://tryhackme.com',tag:'free'}]},
+      {id:'n11',icon:'🔐',title:'Cryptography Basics',desc:'Hashing, symmetric/asymmetric encryption, TLS, PKI, digital signatures. Understand what keeps data secure.',tags:[],time:'3-4 weeks',
+        resources:[{name:'Cryptohack',url:'https://cryptohack.org',tag:'free'},{name:'Khan Academy Crypto',url:'https://khanacademy.org',tag:'free'}]},
+      {id:'n12',icon:'🔥',title:'Firewalls & IDS/IPS',desc:'Configure firewalls, understand stateful inspection, deploy and tune intrusion detection systems.',tags:[],time:'2-3 weeks',
+        resources:[{name:'Snort IDS',url:'https://snort.org',tag:'free'},{name:'pfSense Docs',url:'https://pfsense.org',tag:'free'}]},
+    ]
+  },
+  {
+    id:'3',
+    num:'03',
+    title:'Intermediate',
+    sub:'Get hands-on with real techniques',
+    color:'#ffe600',
+    rgb:'255,230,0',
+    xp:'+2500 XP',
+    nodes:[
+      {id:'n13',icon:'🕷️',title:'Web App Security',desc:'OWASP Top 10, SQL injection, XSS, CSRF, SSRF, XXE, broken auth. The most in-demand skill in security.',tags:['must'],time:'8-12 weeks',
+        resources:[{name:'PortSwigger Web Academy',url:'https://portswigger.net/web-security',tag:'free'},{name:'OWASP Top 10',url:'https://owasp.org/Top10',tag:'free'},{name:'DVWA',url:'https://dvwa.co.uk',tag:'free'}]},
+      {id:'n14',icon:'⚔️',title:'Ethical Hacking Intro',desc:'The pentesting methodology: recon, scanning, exploitation, post-exploitation, reporting. The full kill chain.',tags:['must'],time:'6-8 weeks',
+        resources:[{name:'TryHackMe Jr Pentester',url:'https://tryhackme.com',tag:'free'},{name:'TCM Practical Ethical Hacking',url:'https://academy.tcm-sec.com',tag:'paid'},{name:'HackTheBox Starting Point',url:'https://hackthebox.com',tag:'free'}]},
+      {id:'n15',icon:'🧪',title:'Vulnerability Analysis',desc:'CVE research, vulnerability scanning with Nessus/OpenVAS, understanding CVSS scoring, patch management.',tags:[],time:'3-4 weeks',
+        resources:[{name:'OpenVAS',url:'https://openvas.org',tag:'free'},{name:'NVD CVE Database',url:'https://nvd.nist.gov',tag:'free'}]},
+      {id:'n16',icon:'🔎',title:'Burp Suite Mastery',desc:'Web proxy, scanner, intruder, repeater. The industry standard web app testing toolkit. Learn it deeply.',tags:['tool'],time:'4-6 weeks',
+        resources:[{name:'PortSwigger Burp Docs',url:'https://portswigger.net/burp',tag:'free'},{name:'TryHackMe Burp Suite',url:'https://tryhackme.com',tag:'free'}]},
+      {id:'n17',icon:'💻',title:'Metasploit Framework',desc:'The exploitation framework used by professionals worldwide. Learn modules, payloads, post-exploitation.',tags:['tool'],time:'3-4 weeks',
+        resources:[{name:'Metasploit Unleashed',url:'https://metasploit.help.rapid7.com',tag:'free'},{name:'TryHackMe Metasploit',url:'https://tryhackme.com',tag:'free'}]},
+      {id:'n18',icon:'🏴',title:'CTF Practice',desc:'Capture The Flag competitions teach real attack techniques in a legal, competitive environment. Essential practice.',tags:[],time:'Ongoing',
+        resources:[{name:'picoCTF',url:'https://picoctf.org',tag:'free'},{name:'CTFtime.org',url:'https://ctftime.org',tag:'free'},{name:'HackTheBox',url:'https://hackthebox.com',tag:'free'}]},
+      {id:'n19',icon:'📊',title:'SIEM & Log Analysis',desc:'Splunk, ELK Stack, Graylog. Parse logs, build dashboards, create detection rules, hunt threats.',tags:[],time:'4-6 weeks',
+        resources:[{name:'Splunk Fundamentals Free',url:'https://splunk.com',tag:'free'},{name:'LetsDefend SOC Labs',url:'https://letsdefend.io',tag:'free'}]},
+      {id:'n20',icon:'🕵️',title:'OSINT Techniques',desc:'Open Source Intelligence gathering. Recon-ng, theHarvester, Maltego, Google dorking, social media OSINT.',tags:[],time:'3-4 weeks',
+        resources:[{name:'OSINT Framework',url:'https://osintframework.com',tag:'free'},{name:'IntelTechniques',url:'https://inteltechniques.com',tag:'free'}]},
+    ]
+  },
+  {
+    id:'4',
+    num:'04',
+    title:'Specialization',
+    sub:'Choose your path and go deep',
+    color:'#ff6b2b',
+    rgb:'255,107,43',
+    xp:'+5000 XP',
+    nodes:[
+      {id:'n21',icon:'🗡️',title:'Active Directory Attacks',desc:'Kerberoasting, Pass-the-Hash, DCSync, BloodHound, AD enumeration. Dominating enterprise networks.',tags:['must'],time:'6-8 weeks',
+        resources:[{name:'TCM AD Course',url:'https://academy.tcm-sec.com',tag:'paid'},{name:'BloodHound CE',url:'https://bloodhoundenterprise.io',tag:'free'},{name:'THM Active Directory',url:'https://tryhackme.com',tag:'free'}]},
+      {id:'n22',icon:'☁️',title:'Cloud Security',desc:'AWS/Azure/GCP misconfigurations, IAM attacks, S3 bucket hunting, container escapes, CloudGoat.',tags:[],time:'6-8 weeks',
+        resources:[{name:'flaws.cloud',url:'http://flaws.cloud',tag:'free'},{name:'CloudGoat',url:'https://github.com/RhinoSecurityLabs/cloudgoat',tag:'free'},{name:'Cloud Security Alliance',url:'https://cloudsecurityalliance.org',tag:'free'}]},
+      {id:'n23',icon:'🦠',title:'Malware Analysis',desc:'Static and dynamic analysis, sandbox execution, reverse engineering PE files, identifying C2 indicators.',tags:[],time:'8-12 weeks',
+        resources:[{name:'ANY.RUN Sandbox',url:'https://any.run',tag:'free'},{name:'Ghidra NSA',url:'https://ghidra-sre.org',tag:'free'},{name:'MalwareBazaar',url:'https://bazaar.abuse.ch',tag:'free'}]},
+      {id:'n24',icon:'🔬',title:'Digital Forensics & IR',desc:'Memory forensics, disk imaging, timeline analysis, log analysis, incident response playbooks.',tags:[],time:'6-8 weeks',
+        resources:[{name:'Autopsy Forensics',url:'https://sleuthkit.org/autopsy',tag:'free'},{name:'Volatility Framework',url:'https://volatilityfoundation.org',tag:'free'},{name:'CyberDefenders',url:'https://cyberdefenders.org',tag:'free'}]},
+      {id:'n25',icon:'🔓',title:'Advanced Exploitation',desc:'Buffer overflows, ROP chains, heap exploitation, format string attacks, kernel exploitation basics.',tags:[],time:'10-16 weeks',
+        resources:[{name:'pwn.college',url:'https://pwn.college',tag:'free'},{name:'Exploit-DB',url:'https://exploit-db.com',tag:'free'},{name:'LiveOverflow YouTube',url:'https://youtube.com/@LiveOverflow',tag:'free'}]},
+      {id:'n26',icon:'📱',title:'Mobile Security',desc:'Android/iOS app analysis, APK reversing, mobile proxying with MobSF, OWASP Mobile Top 10.',tags:[],time:'6-8 weeks',
+        resources:[{name:'MobSF Framework',url:'https://github.com/MobSF/Mobile-Security-Framework-MobSF',tag:'free'},{name:'OWASP MASTG',url:'https://owasp.org/www-project-mobile-app-security',tag:'free'}]},
+      {id:'n27',icon:'⚡',title:'Wireless Attacks',desc:'WPA2 cracking, evil twin attacks, WPS attacks, Bluetooth security, rogue access points.',tags:[],time:'3-4 weeks',
+        resources:[{name:'Aircrack-ng Suite',url:'https://aircrack-ng.org',tag:'free'},{name:'TryHackMe Wifi Hacking',url:'https://tryhackme.com',tag:'free'}]},
+      {id:'n28',icon:'🏢',title:'GRC & Compliance',desc:'ISO 27001, SOC 2, GDPR, HIPAA, PCI-DSS. Risk assessments, security policies, audit management.',tags:[],time:'6-8 weeks',
+        resources:[{name:'NIST SP 800-53',url:'https://nvd.nist.gov/800-53',tag:'free'},{name:'CIS Controls',url:'https://cisecurity.org/controls',tag:'free'}]},
+    ]
+  },
+  {
+    id:'5',
+    num:'05',
+    title:'Expert Level',
+    sub:'Elite certifications and research',
+    color:'#bf5af2',
+    rgb:'191,90,242',
+    xp:'+10000 XP',
+    nodes:[
+      {id:'n29',icon:'💀',title:'OSCP Certification',desc:'Offensive Security Certified Professional. The gold standard pentest cert. 24-hour practical exam. Career-defining.',tags:['cert','must'],time:'3-6 months',
+        resources:[{name:'OffSec PEN-200',url:'https://offsec.com/courses/pen-200',tag:'paid'},{name:'TJNull HTB List',url:'https://www.netsecfocus.com',tag:'free'},{name:'IppSec YouTube',url:'https://youtube.com/@ippsec',tag:'free'}]},
+      {id:'n30',icon:'🎖️',title:'CISSP Certification',desc:'The premier security management certification globally. Covers 8 domains. Requires 5 years experience.',tags:['cert'],time:'6-12 months',
+        resources:[{name:'ISC2 Official Study Guide',url:'https://isc2.org',tag:'paid'},{name:'Prabh Nair YT',url:'https://youtube.com',tag:'free'},{name:'Boson Practice Exams',url:'https://boson.com',tag:'paid'}]},
+      {id:'n31',icon:'🧠',title:'Red Team Operations',desc:'Full adversary simulation, C2 frameworks (Cobalt Strike, Havoc), OPSEC, phishing campaigns, physical.',tags:[],time:'6-12 months',
+        resources:[{name:'Cobalt Strike Docs',url:'https://cobaltstrike.com',tag:'paid'},{name:'Red Team Notes',url:'https://www.ired.team',tag:'free'},{name:'VX-Underground',url:'https://vx-underground.org',tag:'free'}]},
+      {id:'n32',icon:'🔩',title:'Reverse Engineering',desc:'x86/x64 assembly, Ghidra/IDA Pro, binary patching, unpacking malware, firmware analysis.',tags:[],time:'6-12 months',
+        resources:[{name:'RE for Beginners',url:'https://beginners.re',tag:'free'},{name:'x64dbg Debugger',url:'https://x64dbg.com',tag:'free'},{name:'Malware Unicorn',url:'https://malwareunicorn.org',tag:'free'}]},
+      {id:'n33',icon:'🐛',title:'Bug Bounty Hunting',desc:'Find real vulnerabilities in live systems. HackerOne, Bugcrowd, private programs. Earn rewards.',tags:[],time:'Ongoing',
+        resources:[{name:'HackerOne',url:'https://hackerone.com',tag:'free'},{name:'Bugcrowd',url:'https://bugcrowd.com',tag:'free'},{name:'STÖK YouTube',url:'https://youtube.com/@STOKfredrik',tag:'free'}]},
+      {id:'n34',icon:'🔭',title:'Threat Intelligence',desc:'MITRE ATT&CK, threat actor tracking, IOC analysis, STIX/TAXII, threat hunting operations.',tags:[],time:'4-6 months',
+        resources:[{name:'MITRE ATT&CK',url:'https://attack.mitre.org',tag:'free'},{name:'AlienVault OTX',url:'https://otx.alienvault.com',tag:'free'}]},
+      {id:'n35',icon:'🏆',title:'Advanced GIAC Certs',desc:'GPEN, GREM, GWAPT, GCFE, GCIH. SANS-backed, highly technical, employer-recognized certifications.',tags:['cert'],time:'3-6 months each',
+        resources:[{name:'SANS Institute',url:'https://sans.org',tag:'paid'},{name:'GIAC Certifications',url:'https://giac.org',tag:'paid'}]},
+      {id:'n36',icon:'📣',title:'Security Research & CVEs',desc:'Responsible disclosure, CVE assignment, write original research, present at DEF CON and Black Hat.',tags:[],time:'Ongoing',
+        resources:[{name:'DEF CON CFP',url:'https://defcon.org',tag:'free'},{name:'CVE Program',url:'https://cve.mitre.org',tag:'free'}]},
+    ]
+  }
+];
+
+const TRACKS = [
+  {color:'#ff2d55',icon:'🗡️',title:'Penetration Tester',desc:'Legally hack systems. Find vulnerabilities before attackers do.',certs:['eJPT','PNPT','OSCP','OSEP']},
+  {color:'#00e5ff',icon:'🛡️',title:'SOC Analyst',desc:'Monitor, detect, and respond to security incidents in real time.',certs:['Sec+','CySA+','BTL1','GCIH']},
+  {color:'#39ff14',icon:'🔬',title:'DFIR Analyst',desc:'Investigate breaches, analyze evidence, preserve forensic integrity.',certs:['GCFE','GCFA','GCFR','EnCE']},
+  {color:'#ffe600',icon:'☁️',title:'Cloud Security',desc:'Secure AWS, Azure, GCP environments and cloud-native workloads.',certs:['AWS-SAA','CCSP','AZ-500','GCP-SC']},
+  {color:'#bf5af2',icon:'🦠',title:'Malware Analyst',desc:'Reverse engineer malicious software, understand attack tooling.',certs:['GREM','GCFA','eWPTX','eCRE']},
+  {color:'#ff6b2b',icon:'🏢',title:'Security Engineer',desc:'Build secure systems, implement DevSecOps, harden infrastructure.',certs:['CISSP','CISM','AWS-SAP','CSSLP']},
+  {color:'#00d2d3',icon:'📋',title:'GRC Specialist',desc:'Manage risk, ensure compliance, audit security programs.',certs:['CISA','CISM','CRISC','ISO27001']},
+  {color:'#ffa502',icon:'🔭',title:'Threat Intelligence',desc:'Track adversaries, analyze TTPs, produce actionable intel.',certs:['CTIA','GCTI','GCIA','Sec+']},
+];
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ─── YOUR BOOKMARKS (from imported bookmarks file) ───────────────────────────
+
+const BOOKMARKS = {
+  "Bug Bounty": [
+    {name:"HackerOne", url:"https://hackerone.com/opportunities/all"},
+    {name:"Bugcrowd", url:"https://bugcrowd.com/dashboard"},
+    {name:"Open Bug Bounty", url:"https://www.openbugbounty.org/"},
+    {name:"Google Bug Hunters", url:"https://bughunters.google.com/report"},
+    {name:"Bug Bounty Hunter Reports", url:"https://www.bugbountyhunter.com/disclosed/"},
+    {name:"Trickest Asset Inventory", url:"https://trickest.io/dashboard/solutions/public/a7cba1f1-df07-4a5c-876a-953f178996be"},
+    {name:"CVSS v3 Calculator", url:"https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator"},
+    {name:"Bugcrowd VRT", url:"https://bugcrowd.com/vulnerability-rating-taxonomy"},
+    {name:"AllAboutBugBounty (GitHub)", url:"https://github.com/daffainfo/AllAboutBugBounty"},
+    {name:"Awesome Oneliner Bug Bounty", url:"https://github.com/dwisiswant0/awesome-oneliner-bugbounty"},
+    {name:"Bug Bounty Labs", url:"https://github.com/leetCipher/bug-bounty-labs"},
+    {name:"Lissy93 Bug Bounties", url:"https://github.com/Lissy93/bug-bounties/tree/main"},
+    {name:"Live Bug Bounty Hunting Blog", url:"https://blog.amrelsagaei.com/live-bug-bounty-hunting"},
+  ],
+  "CTF & Practice": [
+    {name:"TryHackMe", url:"https://tryhackme.com/"},
+    {name:"HackTheBox", url:"https://app.hackthebox.com/home"},
+    {name:"picoCTF", url:"https://picoctf.org/"},
+    {name:"CryptoHack", url:"https://cryptohack.org/courses/"},
+    {name:"Cryptopals", url:"https://cryptopals.com/sets/1"},
+    {name:"OverTheWire Wargames", url:"https://overthewire.org/wargames/"},
+    {name:"VulnHub", url:"https://www.vulnhub.com/"},
+    {name:"PentesterLab", url:"https://pentesterlab.com/exercises"},
+    {name:"PortSwigger Web Academy", url:"https://portswigger.net/web-security"},
+    {name:"CyberDefenders", url:"https://cyberdefenders.org/"},
+    {name:"LetsDefend SOC", url:"https://app.letsdefend.io/homepage"},
+    {name:"HBH Wargames", url:"https://hbh.sh/home"},
+    {name:"HackThis Site", url:"https://www.hackthissite.org/"},
+    {name:"Virtual Hacking Labs", url:"https://www.virtualhackinglabs.com/"},
+    {name:"OWASP Security Shepherd", url:"https://owasp.org/www-project-security-shepherd/"},
+    {name:"OffSec Labs", url:"https://www.offsec.com/labs/"},
+    {name:"Google Gruyere Web Exploits", url:"https://google-gruyere.appspot.com/part1"},
+    {name:"Command Challenge", url:"https://cmdchallenge.com/"},
+    {name:"Hackviser", url:"https://app.hackviser.com/home"},
+    {name:"HackerSplaining Lessons", url:"https://www.hacksplaining.com/lessons"},
+  ],
+  "Recon & OSINT": [
+    {name:"Shodan", url:"https://www.shodan.io/"},
+    {name:"Censys Search", url:"https://search.censys.io/"},
+    {name:"FOFA Search Engine", url:"https://en.fofa.info/subject"},
+    {name:"DNSdumpster", url:"https://dnsdumpster.com/"},
+    {name:"crt.sh (Subdomains)", url:"https://crt.sh/"},
+    {name:"urlscan.io", url:"https://urlscan.io/"},
+    {name:"HackerTarget", url:"https://hackertarget.com/"},
+    {name:"Hunter.io", url:"https://hunter.io/"},
+    {name:"Epieos OSINT", url:"https://epieos.com/"},
+    {name:"OSINT Framework", url:"https://osintframework.com/"},
+    {name:"OSINT Industries", url:"https://osint.industries/"},
+    {name:"OSINT.SH", url:"https://osint.sh/"},
+    {name:"WhatsMyName", url:"https://whatsmyname.app/"},
+    {name:"SpiderFoot", url:"https://github.com/smicallef/spiderfoot"},
+    {name:"Sherlock (Username)", url:"https://github.com/sherlock-project/sherlock"},
+    {name:"GHunt (Google)", url:"https://github.com/mxrch/GHunt"},
+    {name:"BGP Hurricane Electric", url:"https://bgp.he.net/"},
+    {name:"BuiltWith", url:"https://builtwith.com/"},
+    {name:"Phonebook.cz", url:"https://phonebook.cz/"},
+    {name:"who.is WHOIS", url:"https://who.is/"},
+    {name:"intoDNS", url:"https://intodns.com/"},
+    {name:"GreyNoise Visualizer", url:"https://viz.greynoise.io/"},
+    {name:"AlienVault OTX", url:"https://otx.alienvault.com/"},
+    {name:"Wigle Wireless Mapping", url:"https://wigle.net/"},
+    {name:"GrayHatWarfare Buckets", url:"https://grayhatwarfare.com/packages"},
+    {name:"Awesome OSINT (GitHub)", url:"https://github.com/jivoi/awesome-osint"},
+    {name:"Awesome Shodan Queries", url:"https://github.com/jakejarvis/awesome-shodan-queries"},
+    {name:"HaveIBeenPwned", url:"https://haveibeenpwned.com/"},
+    {name:"LeakLookup", url:"https://leak-lookup.com/"},
+    {name:"Pastebin Search", url:"https://pastebin-search.com/"},
+    {name:"PimEyes Face Search", url:"https://pimeyes.com/en"},
+    {name:"FaceCheck ID", url:"https://facecheck.id/"},
+    {name:"TinEye Reverse Image", url:"https://tineye.com/"},
+    {name:"Talos IP Reputation", url:"https://talosintelligence.com/reputation_center/"},
+    {name:"ZoomEye", url:"https://www.zoomeye.org/"},
+  ],
+  "Vulnerability & Exploit DBs": [
+    {name:"MITRE ATT&CK", url:"https://attack.mitre.org/"},
+    {name:"CVE Database", url:"https://cve.mitre.org/"},
+    {name:"NVD Vuln Listing", url:"https://nvd.nist.gov/vuln/full-listing"},
+    {name:"Exploit-DB", url:"https://www.exploit-db.com/"},
+    {name:"Google Hacking DB", url:"https://www.exploit-db.com/google-hacking-database"},
+    {name:"CVEDetails", url:"https://www.cvedetails.com/index.php"},
+    {name:"Rapid7 Vuln DB", url:"https://www.rapid7.com/db/"},
+    {name:"CWE MITRE", url:"https://cwe.mitre.org/"},
+    {name:"HackTricks", url:"https://book.hacktricks.xyz/welcome/readme"},
+    {name:"PayloadsAllTheThings", url:"https://github.com/swisskyrepo/PayloadsAllTheThings"},
+    {name:"PayloadsAllTheThings Web", url:"https://swisskyrepo.github.io/PayloadsAllTheThingsWeb/"},
+    {name:"FuzzDB Attack Payloads", url:"https://github.com/fuzzdb-project/fuzzdb/tree/master/attack"},
+    {name:"SQL Injection Payloads", url:"https://github.com/payloadbox/sql-injection-payload-list"},
+    {name:"XSS Payload List", url:"https://github.com/payloadbox/xss-payload-list"},
+  ],
+  "Web App Security Tools": [
+    {name:"XSS Filter Evasion (OWASP)", url:"https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html"},
+    {name:"XSS Cheat Sheet (PortSwigger)", url:"https://portswigger.net/web-security/cross-site-scripting/cheat-sheet"},
+    {name:"Beyond XSS Guide", url:"https://aszx87410.github.io/beyond-xss/en/ch1/know-xss-a-bit-more/"},
+    {name:"XSS Hunter", url:"https://xsshunter.trufflesecurity.com/app/#/"},
+    {name:"KNOXSS Pro", url:"https://knoxss.me/pro"},
+    {name:"Ultimate XSS Polyglot", url:"https://github.com/0xsobky/HackVault/wiki/Unleashing-an-Ultimate-XSS-Polyglot"},
+    {name:"CSRF PoC Generator", url:"https://security.love/CSRF-PoC-Genorator/"},
+    {name:"SSRF URL Bypass Cheat Sheet", url:"https://portswigger.net/web-security/ssrf/url-validation-bypass-cheat-sheet"},
+    {name:"SSRF Rebinder", url:"https://lock.cmpxchg8b.com/rebinder.html"},
+    {name:"Interactsh Web Client", url:"https://app.interactsh.com/#/"},
+    {name:"CSP Bypass", url:"http://cspbypass.com/"},
+    {name:"JWT.io", url:"https://jwt.io/"},
+    {name:"Clickjacker Test", url:"https://clickjacker.io/"},
+    {name:"Security Headers Check", url:"https://securityheaders.com/"},
+    {name:"Feroxbuster (Dir Busting)", url:"https://github.com/epi052/feroxbuster"},
+    {name:"Sploitify", url:"https://sploitify.haxx.it/"},
+    {name:"APIsec University", url:"https://university.apisec.ai/products/api-security-fundamentals"},
+    {name:"Blind CSS Exfiltration", url:"https://github.com/hackvertor/blind-css-exfiltration"},
+    {name:"Git-Dumper", url:"https://github.com/HoLLy-HaCKeR/git-dumper"},
+  ],
+  "Linux & Privilege Escalation": [
+    {name:"GTFOBins", url:"https://gtfobins.github.io/"},
+    {name:"LinPEAS", url:"https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS"},
+    {name:"LinEnum", url:"https://github.com/rebootuser/LinEnum"},
+    {name:"Linux Exploit Suggester", url:"https://github.com/The-Z-Labs/linux-exploit-suggester"},
+    {name:"Linux Smart Enumeration", url:"https://github.com/diego-treitos/linux-smart-enumeration"},
+    {name:"Linux PrivChecker", url:"https://github.com/linted/linuxprivchecker"},
+    {name:"Linux Syscall Hook", url:"https://github.com/3intermute/linux_syscall_hook"},
+    {name:"Crontab Generator", url:"https://crontab-generator.org/"},
+    {name:"ExplainShell", url:"https://explainshell.com/"},
+    {name:"Linux Journey", url:"https://linuxjourney.com/"},
+    {name:"Linux Foundation LFS101", url:"https://trainingportal.linuxfoundation.org/learn/course/introduction-to-linux-lfs101/the-linux-foundation/introduction"},
+  ],
+  "Windows & AD": [
+    {name:"LOLBAS", url:"https://lolbas-project.github.io/"},
+    {name:"WinPEAS", url:"https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS"},
+    {name:"Priv2Admin", url:"https://github.com/gtworek/Priv2Admin"},
+    {name:"PrivescCheck", url:"https://github.com/itm4n/PrivescCheck"},
+    {name:"WES-NG Exploit Suggester", url:"https://github.com/bitsadmin/wesng"},
+    {name:"Seatbelt", url:"https://github.com/GhostPack/Seatbelt"},
+    {name:"Mimikatz", url:"https://github.com/gentilkiwi/mimikatz"},
+    {name:"SharpSploit", url:"https://github.com/cobbr/SharpSploit"},
+    {name:"RogueWinRM", url:"https://github.com/antonioCoco/RogueWinRM"},
+    {name:"UACME", url:"https://github.com/hfiref0x/UACME"},
+    {name:"AD Attack Defense", url:"https://github.com/infosecn1nja/AD-Attack-Defense"},
+    {name:"Windows Privesc (HackTricks)", url:"https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation"},
+    {name:"PayloadsAllTheThings Windows", url:"https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md"},
+    {name:"Windows Server Commands", url:"https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/commands-by-server-role"},
+    {name:"Sysinternals Suite", url:"https://learn.microsoft.com/en-us/sysinternals/downloads/"},
+  ],
+  "Malware & Reverse Engineering": [
+    {name:"ANY.RUN Sandbox", url:"https://any.run/"},
+    {name:"VirusTotal", url:"https://www.virustotal.com/gui/home/upload"},
+    {name:"Hybrid Analysis", url:"https://hybrid-analysis.com/"},
+    {name:"MalwareBazaar", url:"https://bazaar.abuse.ch/"},
+    {name:"MalShare", url:"https://www.malshare.com/"},
+    {name:"Malpedia", url:"https://malpedia.caad.fkie.fraunhofer.de/"},
+    {name:"theZoo Malware Repo", url:"https://github.com/ytisf/theZoo"},
+    {name:"VX-Underground", url:"https://www.vx-underground.org/"},
+    {name:"Feodo Tracker", url:"https://feodotracker.abuse.ch/"},
+    {name:"SSLBL", url:"https://sslbl.abuse.ch/"},
+    {name:"URLhaus", url:"https://urlhaus.abuse.ch/"},
+    {name:"ThreatFox IOCs", url:"https://threatfox.abuse.ch/"},
+    {name:"Talos Intelligence", url:"https://talosintelligence.com/"},
+    {name:"AMSI.fail", url:"http://amsi.fail/"},
+    {name:"Evasions Encyclopedia", url:"https://evasions.checkpoint.com/"},
+    {name:"DefenderCheck", url:"https://github.com/matterpreter/DefenderCheck"},
+    {name:"ThreatCheck", url:"https://github.com/rasta-mouse/ThreatCheck"},
+    {name:"Awesome Malware Dev", url:"https://github.com/rootkit-io/awesome-malware-development"},
+    {name:"Awesome Linux Rootkits", url:"https://github.com/tkmru/awesome-linux-rootkits"},
+    {name:"Malware Writeups", url:"https://github.com/albertzsigovits/malware-writeups"},
+    {name:"al-khaser (VM Evasion)", url:"https://github.com/LordNoteworthy/al-khaser#al-khaser-v081"},
+  ],
+  "Cheatsheets & References": [
+    {name:"OSCP Cheatsheets", url:"https://github.com/blackc03r/OSCP-Cheatsheets/tree/master"},
+    {name:"Nmap Cheat Sheet", url:"https://www.stationx.net/nmap-cheat-sheet/"},
+    {name:"Pentestmonkey Cheat Sheets", url:"https://pentestmonkey.net/category/cheat-sheet"},
+    {name:"Reverse Shell Generator", url:"https://www.revshells.com/"},
+    {name:"PHP Reverse Shell", url:"https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php"},
+    {name:"Reverse Shell (Archive)", url:"https://web.archive.org/web/20200901140719/http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet"},
+    {name:"Red Teaming Toolkit", url:"https://0xsp.com/offensive/red-teaming-toolkit-collection/"},
+    {name:"Bug Bounty Cheatsheet", url:"https://m0chan.github.io/2019/12/17/Bug-Bounty-Cheetsheet.html"},
+    {name:"OSCP Prep Guide (TJNull)", url:"https://www.netsecfocus.com/oscp/2021/05/06/The_Journey_to_Try_Harder-_TJnull-s_Preparation_Guide_for_PEN-200_PWK_OSCP_2.0.html"},
+    {name:"HackTricks Full Wiki", url:"https://book.hacktricks.xyz/welcome/readme"},
+    {name:"File Signatures Reference", url:"https://www.garykessler.net/library/file_sigs.html"},
+    {name:"Default Passwords CIRT", url:"https://cirt.net/passwords"},
+    {name:"Router Default Passwords", url:"https://bcca.org/routers-default-passwords/"},
+    {name:"SecLists", url:"https://github.com/danielmiessler/SecLists"},
+    {name:"Assetnote Wordlists", url:"http://wordlists.assetnote.io/"},
+    {name:"CeWL Wordlist Generator", url:"https://github.com/digininja/CeWL"},
+    {name:"CyberChef", url:"https://cyberchef.io/"},
+    {name:"ExplainShell", url:"https://www.explainshell.com/"},
+    {name:"Ignite Mindmaps", url:"https://github.com/Ignitetechnologies/Mindmap/tree/main"},
+  ],
+  "Password Cracking": [
+    {name:"CrackStation", url:"https://crackstation.net/"},
+    {name:"Hashcat Examples", url:"https://hashcat.net/wiki/doku.php?id=example_hashes"},
+    {name:"Hashes.com Decrypt", url:"https://hashes.com/en/decrypt/hash"},
+    {name:"Hash Identifier", url:"https://hashes.com/en/tools/hash_identifier"},
+    {name:"HashKiller", url:"https://hashkiller.io/listmanager"},
+    {name:"OnlineHashCrack", url:"https://www.onlinehashcrack.com/"},
+    {name:"MD5Decrypt", url:"https://md5decrypt.net/en/"},
+    {name:"GPUHASH.me", url:"https://gpuhash.me/"},
+    {name:"SHAttered SHA1", url:"https://shattered.io/"},
+    {name:"Pypykatz (Mimikatz Python)", url:"https://github.com/skelsec/pypykatz"},
+    {name:"MimiPenguin (Linux)", url:"https://github.com/huntergregal/mimipenguin"},
+    {name:"RSACTFTool", url:"https://github.com/RsaCtfTool/RsaCtfTool"},
+    {name:"CUPP Password Profiler", url:"https://github.com/Mebus/cupp"},
+  ],
+  "Training Platforms": [
+    {name:"TryHackMe", url:"https://tryhackme.com/"},
+    {name:"HackTheBox Academy", url:"https://academy.hackthebox.com/dashboard"},
+    {name:"Cybrary", url:"https://www.cybrary.it/"},
+    {name:"TCM Security Academy", url:"https://academy.tcm-sec.com/courses/enrolled/2631779"},
+    {name:"OffSec Portal", url:"https://portal.offsec.com/my-learning/in-progress"},
+    {name:"PortSwigger Dashboard", url:"https://portswigger.net/web-security/dashboard"},
+    {name:"Google Cybersecurity (Coursera)", url:"https://www.coursera.org/"},
+    {name:"Google Cloud Skills Boost", url:"https://www.cloudskillsboost.google/"},
+    {name:"Cisco Skills For All", url:"https://skillsforall.com/launch?id=f393c38f-b410-4d2b-8275-70e144273519&tab=curriculum&view=0feda870-2a76-5569-a63d-72ef5f151bec"},
+    {name:"EC-Council CodeRed", url:"https://codered.eccouncil.org/your-portal/home?logged=true"},
+    {name:"EC-Council ASPEN", url:"https://aspen.eccouncil.org/home"},
+    {name:"NetworkChuck Academy", url:"https://academy.networkchuck.com/products/sql-injection-ethical-hacking-guide/categories/2152931646/posts/2167921150"},
+    {name:"LetsDefend SOC", url:"https://app.letsdefend.io/homepage"},
+    {name:"W3Schools", url:"https://my-learning.w3schools.com/"},
+    {name:"FreeCodeCamp", url:"https://www.freecodecamp.org/learn/"},
+    {name:"MIT OpenCourseWare", url:"https://ocw.mit.edu/"},
+    {name:"Harvard Cybersecurity", url:"https://pll.harvard.edu/subject/cybersecurity"},
+    {name:"Palo Alto Free Courses", url:"https://www.paloaltonetworks.com/cyberpedia/free-cybersecurity-education-courses"},
+    {name:"Oxford Home Study (Free)", url:"https://www.oxfordhomestudy.com/courses/cyber-security-courses/free-cyber-security-courses"},
+    {name:"ENISA Training", url:"https://www.enisa.europa.eu/topics/training-and-exercises/trainings-for-cybersecurity-specialists/online-training-material/technical-operational/#vulnerability"},
+    {name:"Forage Security Simulations", url:"https://www.theforage.com/simulations?careers=security&reloaded=true"},
+    {name:"Qualys Training", url:"https://www.qualys.com/training/"},
+    {name:"Brototype Learn", url:"https://learn.brototype.com/courses/777ef8ea-9cbf-478d-aef4-a7a719076711/chapters/55623154-212a-414f-bbb0-02f99914ee68"},
+    {name:"MOOC.fi Courses", url:"https://www.mooc.fi/en/courses/"},
+    {name:"Clark Security", url:"https://clark.center/home"},
+    {name:"Hackviser", url:"https://app.hackviser.com/home"},
+    {name:"RF Skilling Academy", url:"https://rfskillingacademy.com/en/group/388/module/418/answer/421#!"},
+  ],
+  "YouTube Channels": [
+    {name:"IppSec", url:"https://www.youtube.com/@ippsec"},
+    {name:"John Hammond", url:"https://www.youtube.com/@_JohnHammond"},
+    {name:"NetworkChuck", url:"https://www.youtube.com/@NetworkChuck"},
+    {name:"TCM Security", url:"https://www.youtube.com/@TCMSecurityAcademy"},
+    {name:"HackerSploit", url:"https://www.youtube.com/@HackerSploit"},
+    {name:"David Bombal", url:"https://www.youtube.com/@davidbombal"},
+    {name:"LiveOverflow", url:"https://www.youtube.com/@LiveOverflow"},
+    {name:"Marcus Hutchins (MalwareTech)", url:"https://www.youtube.com/@MalwareTechBlog"},
+    {name:"STÖK (Bug Bounty)", url:"https://www.youtube.com/@STOKfredrik"},
+    {name:"NahamSec", url:"https://www.youtube.com/@NahamSec"},
+    {name:"InsiderPhD", url:"https://www.youtube.com/@InsiderPhD"},
+    {name:"jhaddix", url:"https://www.youtube.com/@jhaddix"},
+    {name:"Hak5", url:"https://www.youtube.com/@hak5"},
+    {name:"Null Byte", url:"https://www.youtube.com/@NullByteWHT"},
+    {name:"DEF CON", url:"https://www.youtube.com/@DEFCONConference"},
+    {name:"Black Hat", url:"https://www.youtube.com/@BlackHatOfficialYT"},
+    {name:"zSecurity", url:"https://www.youtube.com/@zSecurity"},
+    {name:"Tom Hudson (TomNomNom)", url:"https://www.youtube.com/@TomNomNomDotCom"},
+    {name:"CosmodiumCS", url:"https://www.youtube.com/@CosmodiumCS"},
+    {name:"crow", url:"https://www.youtube.com/@crr0ww"},
+  ],
+  "News & Blogs": [
+    {name:"Krebs on Security", url:"https://krebsonsecurity.com/"},
+    {name:"The Hacker News", url:"https://thehackernews.com/"},
+    {name:"PortSwigger Blog", url:"https://portswigger.net/blog"},
+    {name:"Hacking Articles", url:"https://www.hackingarticles.in/"},
+    {name:"NCC Group Research", url:"https://research.nccgroup.com/"},
+    {name:"Hacker News (YC)", url:"https://news.ycombinator.com/"},
+    {name:"Help Net Security", url:"https://www.helpnetsecurity.com/"},
+    {name:"Trellix Research", url:"https://www.trellix.com/en-us/about/newsroom/stories/research.html"},
+    {name:"S3cur3Th1sSh1t Blog", url:"https://s3cur3th1ssh1t.github.io/"},
+    {name:"Dark Operator Blog", url:"https://www.darkoperator.com/"},
+    {name:"0xPat Red Team Blog", url:"https://0xpat.github.io/"},
+    {name:"cocomelonc Malware Blog", url:"https://cocomelonc.github.io/"},
+    {name:"xcellerator Blog", url:"https://xcellerator.github.io/"},
+    {name:"The Wover (.NET / Red Team)", url:"https://thewover.github.io/"},
+    {name:"Improsec Tech Blog", url:"https://improsec.com/tech-blog/"},
+    {name:"Capt. Meelo Blog", url:"https://captmeelo.com/"},
+    {name:"DigiNinja Blog", url:"https://digi.ninja/blog.php"},
+    {name:"miloserdov.org", url:"https://miloserdov.org/"},
+    {name:"hackers-arise Blog", url:"https://www.hackers-arise.com/"},
+    {name:"vx-underground", url:"https://www.vx-underground.org/"},
+  ],
+};
+
+// Per-node bookmarks: every bookmark assigned to its most relevant node(s)
+const NODE_BOOKMARKS = {
+
+  // Phase 1 — Foundations
+  'n1': { // Networking Basics
+    'Scanning & Recon Tools': [
+      {name:"Nmap Cheat Sheet", url:"https://www.stationx.net/nmap-cheat-sheet/"},
+      {name:"DNSdumpster", url:"https://dnsdumpster.com/"},
+      {name:"intoDNS", url:"https://intodns.com/"},
+      {name:"BGP Hurricane Electric", url:"https://bgp.he.net/"},
+      {name:"urlscan.io", url:"https://urlscan.io/"},
+      {name:"HackerTarget", url:"https://hackertarget.com/"},
+      {name:"BuiltWith", url:"https://builtwith.com/"},
+      {name:"Shodan", url:"https://www.shodan.io/"},
+      {name:"Censys Search", url:"https://search.censys.io/"},
+      {name:"ZoomEye", url:"https://www.zoomeye.org/"},
+      {name:"FOFA Search Engine", url:"https://en.fofa.info/subject"},
+      {name:"Wigle Wireless Mapping", url:"https://wigle.net/"},
+    ],
+    'Reference': [
+      {name:"ExplainShell", url:"https://explainshell.com/"},
+      {name:"CyberChef", url:"https://cyberchef.io/"},
+    ],
+  },
+  'n2': { // Linux Fundamentals
+    'Linux PrivEsc Tools': [
+      {name:"GTFOBins", url:"https://gtfobins.github.io/"},
+      {name:"LinPEAS", url:"https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS"},
+      {name:"LinEnum", url:"https://github.com/rebootuser/LinEnum"},
+      {name:"Linux Exploit Suggester", url:"https://github.com/The-Z-Labs/linux-exploit-suggester"},
+      {name:"Linux Smart Enumeration", url:"https://github.com/diego-treitos/linux-smart-enumeration"},
+      {name:"Linux PrivChecker", url:"https://github.com/linted/linuxprivchecker"},
+      {name:"Linux Syscall Hook", url:"https://github.com/3intermute/linux_syscall_hook"},
+      {name:"MimiPenguin (Linux)", url:"https://github.com/huntergregal/mimipenguin"},
+    ],
+    'Learning': [
+      {name:"Linux Journey", url:"https://linuxjourney.com/"},
+      {name:"Linux Foundation LFS101", url:"https://trainingportal.linuxfoundation.org/learn/course/introduction-to-linux-lfs101/the-linux-foundation/introduction"},
+      {name:"ExplainShell", url:"https://explainshell.com/"},
+      {name:"Crontab Generator", url:"https://crontab-generator.org/"},
+      {name:"OverTheWire Wargames", url:"https://overthewire.org/wargames/"},
+      {name:"Command Challenge", url:"https://cmdchallenge.com/"},
+    ],
+  },
+  'n3': { // Windows Fundamentals
+    'Windows PrivEsc & Enum': [
+      {name:"LOLBAS", url:"https://lolbas-project.github.io/"},
+      {name:"WinPEAS", url:"https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS"},
+      {name:"Priv2Admin", url:"https://github.com/gtworek/Priv2Admin"},
+      {name:"PrivescCheck", url:"https://github.com/itm4n/PrivescCheck"},
+      {name:"WES-NG Exploit Suggester", url:"https://github.com/bitsadmin/wesng"},
+      {name:"Seatbelt", url:"https://github.com/GhostPack/Seatbelt"},
+      {name:"UACME", url:"https://github.com/hfiref0x/UACME"},
+      {name:"RogueWinRM", url:"https://github.com/antonioCoco/RogueWinRM"},
+      {name:"Sysinternals Suite", url:"https://learn.microsoft.com/en-us/sysinternals/downloads/"},
+    ],
+    'Reference': [
+      {name:"Windows Server Commands", url:"https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/commands-by-server-role"},
+      {name:"Windows Privesc (HackTricks)", url:"https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation"},
+      {name:"PayloadsAllTheThings Windows", url:"https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md"},
+    ],
+  },
+  'n4': { // Python for Security
+    'Reference & Tools': [
+      {name:"CyberChef", url:"https://cyberchef.io/"},
+      {name:"ExplainShell", url:"https://www.explainshell.com/"},
+      {name:"FreeCodeCamp", url:"https://www.freecodecamp.org/learn/"},
+      {name:"W3Schools", url:"https://my-learning.w3schools.com/"},
+      {name:"CeWL Wordlist Generator", url:"https://github.com/digininja/CeWL"},
+      {name:"CUPP Password Profiler", url:"https://github.com/Mebus/cupp"},
+    ],
+  },
+  'n5': { // Security Concepts 101
+    'Training Platforms': [
+      {name:"Cybrary", url:"https://www.cybrary.it/"},
+      {name:"MIT OpenCourseWare", url:"https://ocw.mit.edu/"},
+      {name:"Harvard Cybersecurity", url:"https://pll.harvard.edu/subject/cybersecurity"},
+      {name:"Palo Alto Free Courses", url:"https://www.paloaltonetworks.com/cyberpedia/free-cybersecurity-education-courses"},
+      {name:"Oxford Home Study (Free)", url:"https://www.oxfordhomestudy.com/courses/cyber-security-courses/free-cyber-security-courses"},
+      {name:"ENISA Training", url:"https://www.enisa.europa.eu/topics/training-and-exercises/trainings-for-cybersecurity-specialists/online-training-material/technical-operational/#vulnerability"},
+      {name:"MOOC.fi Courses", url:"https://www.mooc.fi/en/courses/"},
+      {name:"Clark Security", url:"https://clark.center/home"},
+      {name:"Forage Security Simulations", url:"https://www.theforage.com/simulations?careers=security&reloaded=true"},
+    ],
+    'News & Awareness': [
+      {name:"Krebs on Security", url:"https://krebsonsecurity.com/"},
+      {name:"The Hacker News", url:"https://thehackernews.com/"},
+      {name:"Help Net Security", url:"https://www.helpnetsecurity.com/"},
+      {name:"Hacker News (YC)", url:"https://news.ycombinator.com/"},
+    ],
+  },
+  'n6': { // CompTIA A+
+    'Training Platforms': [
+      {name:"Cybrary", url:"https://www.cybrary.it/"},
+      {name:"Professor Messer (via YouTube)", url:"https://www.youtube.com/@NetworkChuck"},
+      {name:"Google Cybersecurity (Coursera)", url:"https://www.coursera.org/"},
+      {name:"W3Schools", url:"https://my-learning.w3schools.com/"},
+    ],
+  },
+
+  // Phase 2 — Core Security
+  'n7': { // CompTIA Network+
+    'Training Platforms': [
+      {name:"Cisco Skills For All", url:"https://skillsforall.com/launch?id=f393c38f-b410-4d2b-8275-70e144273519&tab=curriculum&view=0feda870-2a76-5569-a63d-72ef5f151bec"},
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+      {name:"Cybrary", url:"https://www.cybrary.it/"},
+      {name:"NetworkChuck (YouTube)", url:"https://www.youtube.com/@NetworkChuck"},
+      {name:"David Bombal (YouTube)", url:"https://www.youtube.com/@davidbombal"},
+    ],
+  },
+  'n8': { // CompTIA Security+
+    'Training Platforms': [
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+      {name:"Cybrary", url:"https://www.cybrary.it/"},
+      {name:"Google Cybersecurity (Coursera)", url:"https://www.coursera.org/"},
+      {name:"EC-Council CodeRed", url:"https://codered.eccouncil.org/your-portal/home?logged=true"},
+      {name:"Palo Alto Free Courses", url:"https://www.paloaltonetworks.com/cyberpedia/free-cybersecurity-education-courses"},
+      {name:"Qualys Training", url:"https://www.qualys.com/training/"},
+    ],
+    'YouTube': [
+      {name:"NetworkChuck", url:"https://www.youtube.com/@NetworkChuck"},
+      {name:"David Bombal", url:"https://www.youtube.com/@davidbombal"},
+    ],
+  },
+  'n9': { // Packet Analysis (Wireshark)
+    'Network Analysis': [
+      {name:"Shodan", url:"https://www.shodan.io/"},
+      {name:"Censys Search", url:"https://search.censys.io/"},
+      {name:"urlscan.io", url:"https://urlscan.io/"},
+      {name:"GreyNoise Visualizer", url:"https://viz.greynoise.io/"},
+      {name:"Talos IP Reputation", url:"https://talosintelligence.com/reputation_center/"},
+    ],
+    'Reference': [
+      {name:"CyberChef", url:"https://cyberchef.io/"},
+      {name:"File Signatures Reference", url:"https://www.garykessler.net/library/file_sigs.html"},
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+    ],
+  },
+  'n10': { // Nmap / Network Scanning
+    'Scanning & Recon': [
+      {name:"Shodan", url:"https://www.shodan.io/"},
+      {name:"Censys Search", url:"https://search.censys.io/"},
+      {name:"FOFA Search Engine", url:"https://en.fofa.info/subject"},
+      {name:"ZoomEye", url:"https://www.zoomeye.org/"},
+      {name:"Awesome Shodan Queries", url:"https://github.com/jakejarvis/awesome-shodan-queries"},
+      {name:"HackerTarget", url:"https://hackertarget.com/"},
+      {name:"Nmap Cheat Sheet", url:"https://www.stationx.net/nmap-cheat-sheet/"},
+    ],
+    'Cheatsheets': [
+      {name:"HackTricks", url:"https://book.hacktricks.xyz/welcome/readme"},
+      {name:"PayloadsAllTheThings", url:"https://github.com/swisskyrepo/PayloadsAllTheThings"},
+    ],
+  },
+  'n11': { // Cryptography Basics
+    'Crypto Challenges': [
+      {name:"CryptoHack", url:"https://cryptohack.org/courses/"},
+      {name:"Cryptopals", url:"https://cryptopals.com/sets/1"},
+      {name:"SHAttered SHA1", url:"https://shattered.io/"},
+    ],
+    'Hash & Password Tools': [
+      {name:"CrackStation", url:"https://crackstation.net/"},
+      {name:"Hashes.com Decrypt", url:"https://hashes.com/en/decrypt/hash"},
+      {name:"Hash Identifier", url:"https://hashes.com/en/tools/hash_identifier"},
+      {name:"HashKiller", url:"https://hashkiller.io/listmanager"},
+      {name:"OnlineHashCrack", url:"https://www.onlinehashcrack.com/"},
+      {name:"MD5Decrypt", url:"https://md5decrypt.net/en/"},
+      {name:"GPUHASH.me", url:"https://gpuhash.me/"},
+      {name:"Hashcat Examples", url:"https://hashcat.net/wiki/doku.php?id=example_hashes"},
+      {name:"RSACTFTool", url:"https://github.com/RsaCtfTool/RsaCtfTool"},
+      {name:"JWT.io", url:"https://jwt.io/"},
+    ],
+  },
+  'n12': { // Firewalls & IDS/IPS
+    'Learning': [
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+      {name:"Qualys Training", url:"https://www.qualys.com/training/"},
+      {name:"ENISA Training", url:"https://www.enisa.europa.eu/topics/training-and-exercises/trainings-for-cybersecurity-specialists/online-training-material/technical-operational/#vulnerability"},
+    ],
+  },
+
+  // Phase 3 — Intermediate
+  'n13': { // Web App Security
+    'Web Exploitation Tools': [
+      {name:"PortSwigger Web Academy", url:"https://portswigger.net/web-security"},
+      {name:"XSS Filter Evasion (OWASP)", url:"https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html"},
+      {name:"XSS Cheat Sheet (PortSwigger)", url:"https://portswigger.net/web-security/cross-site-scripting/cheat-sheet"},
+      {name:"Beyond XSS Guide", url:"https://aszx87410.github.io/beyond-xss/en/ch1/know-xss-a-bit-more/"},
+      {name:"XSS Hunter", url:"https://xsshunter.trufflesecurity.com/app/#/"},
+      {name:"KNOXSS Pro", url:"https://knoxss.me/pro"},
+      {name:"Ultimate XSS Polyglot", url:"https://github.com/0xsobky/HackVault/wiki/Unleashing-an-Ultimate-XSS-Polyglot"},
+      {name:"XSS Payload List", url:"https://github.com/payloadbox/xss-payload-list"},
+      {name:"CSRF PoC Generator", url:"https://security.love/CSRF-PoC-Genorator/"},
+      {name:"SSRF URL Bypass Cheat Sheet", url:"https://portswigger.net/web-security/ssrf/url-validation-bypass-cheat-sheet"},
+      {name:"SSRF Rebinder", url:"https://lock.cmpxchg8b.com/rebinder.html"},
+      {name:"Interactsh Web Client", url:"https://app.interactsh.com/#/"},
+      {name:"CSP Bypass", url:"http://cspbypass.com/"},
+      {name:"Clickjacker Test", url:"https://clickjacker.io/"},
+      {name:"Security Headers Check", url:"https://securityheaders.com/"},
+      {name:"Blind CSS Exfiltration", url:"https://github.com/hackvertor/blind-css-exfiltration"},
+      {name:"Git-Dumper", url:"https://github.com/HoLLy-HaCKeR/git-dumper"},
+    ],
+    'Vuln References': [
+      {name:"PayloadsAllTheThings Web", url:"https://swisskyrepo.github.io/PayloadsAllTheThingsWeb/"},
+      {name:"SQL Injection Payloads", url:"https://github.com/payloadbox/sql-injection-payload-list"},
+      {name:"FuzzDB Attack Payloads", url:"https://github.com/fuzzdb-project/fuzzdb/tree/master/attack"},
+      {name:"OWASP Security Shepherd", url:"https://owasp.org/www-project-security-shepherd/"},
+      {name:"HackerSplaining Lessons", url:"https://www.hacksplaining.com/lessons"},
+    ],
+    'Scanning Tools': [
+      {name:"Feroxbuster (Dir Busting)", url:"https://github.com/epi052/feroxbuster"},
+      {name:"Sploitify", url:"https://sploitify.haxx.it/"},
+      {name:"APIsec University", url:"https://university.apisec.ai/products/api-security-fundamentals"},
+      {name:"Assetnote Wordlists", url:"http://wordlists.assetnote.io/"},
+      {name:"SecLists", url:"https://github.com/danielmiessler/SecLists"},
+    ],
+  },
+  'n14': { // Ethical Hacking Intro
+    'CTF & Labs': [
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+      {name:"HackTheBox", url:"https://app.hackthebox.com/home"},
+      {name:"HackTheBox Academy", url:"https://academy.hackthebox.com/dashboard"},
+      {name:"VulnHub", url:"https://www.vulnhub.com/"},
+      {name:"PentesterLab", url:"https://pentesterlab.com/exercises"},
+      {name:"Virtual Hacking Labs", url:"https://www.virtualhackinglabs.com/"},
+      {name:"OffSec Labs", url:"https://www.offsec.com/labs/"},
+      {name:"Hackviser", url:"https://app.hackviser.com/home"},
+    ],
+    'Methodology': [
+      {name:"HackTricks Full Wiki", url:"https://book.hacktricks.xyz/welcome/readme"},
+      {name:"PayloadsAllTheThings", url:"https://github.com/swisskyrepo/PayloadsAllTheThings"},
+      {name:"OSCP Cheatsheets", url:"https://github.com/blackc03r/OSCP-Cheatsheets/tree/master"},
+      {name:"Pentestmonkey Cheat Sheets", url:"https://pentestmonkey.net/category/cheat-sheet"},
+      {name:"Reverse Shell Generator", url:"https://www.revshells.com/"},
+      {name:"PHP Reverse Shell", url:"https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php"},
+      {name:"Red Teaming Toolkit", url:"https://0xsp.com/offensive/red-teaming-toolkit-collection/"},
+      {name:"Ignite Mindmaps", url:"https://github.com/Ignitetechnologies/Mindmap/tree/main"},
+    ],
+    'Training': [
+      {name:"TCM Security Academy", url:"https://academy.tcm-sec.com/courses/enrolled/2631779"},
+      {name:"Brototype Learn", url:"https://learn.brototype.com/courses/777ef8ea-9cbf-478d-aef4-a7a719076711/chapters/55623154-212a-414f-bbb0-02f99914ee68"},
+      {name:"RF Skilling Academy", url:"https://rfskillingacademy.com/en/group/388/module/418/answer/421#!"},
+    ],
+  },
+  'n15': { // Vulnerability Analysis
+    'Vuln Databases': [
+      {name:"CVE Database", url:"https://cve.mitre.org/"},
+      {name:"NVD Vuln Listing", url:"https://nvd.nist.gov/vuln/full-listing"},
+      {name:"Exploit-DB", url:"https://www.exploit-db.com/"},
+      {name:"CVEDetails", url:"https://www.cvedetails.com/index.php"},
+      {name:"Rapid7 Vuln DB", url:"https://www.rapid7.com/db/"},
+      {name:"CWE MITRE", url:"https://cwe.mitre.org/"},
+      {name:"CVSS v3 Calculator", url:"https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator"},
+      {name:"Google Hacking DB", url:"https://www.exploit-db.com/google-hacking-database"},
+    ],
+  },
+  'n16': { // Burp Suite
+    'Burp & Web Tools': [
+      {name:"PortSwigger Dashboard", url:"https://portswigger.net/web-security/dashboard"},
+      {name:"PortSwigger Web Academy", url:"https://portswigger.net/web-security"},
+      {name:"PortSwigger Blog", url:"https://portswigger.net/blog"},
+      {name:"XSS Cheat Sheet (PortSwigger)", url:"https://portswigger.net/web-security/cross-site-scripting/cheat-sheet"},
+      {name:"SSRF URL Bypass Cheat Sheet", url:"https://portswigger.net/web-security/ssrf/url-validation-bypass-cheat-sheet"},
+      {name:"JWT.io", url:"https://jwt.io/"},
+      {name:"Interactsh Web Client", url:"https://app.interactsh.com/#/"},
+    ],
+  },
+  'n17': { // Metasploit
+    'Exploitation': [
+      {name:"Exploit-DB", url:"https://www.exploit-db.com/"},
+      {name:"Rapid7 Vuln DB", url:"https://www.rapid7.com/db/"},
+      {name:"Reverse Shell Generator", url:"https://www.revshells.com/"},
+      {name:"PHP Reverse Shell", url:"https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php"},
+      {name:"GTFOBins", url:"https://gtfobins.github.io/"},
+      {name:"LOLBAS", url:"https://lolbas-project.github.io/"},
+      {name:"HackTricks", url:"https://book.hacktricks.xyz/welcome/readme"},
+    ],
+  },
+  'n18': { // CTF Practice
+    'CTF Platforms': [
+      {name:"picoCTF", url:"https://picoctf.org/"},
+      {name:"HackTheBox", url:"https://app.hackthebox.com/home"},
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+      {name:"CryptoHack", url:"https://cryptohack.org/courses/"},
+      {name:"Cryptopals", url:"https://cryptopals.com/sets/1"},
+      {name:"OverTheWire Wargames", url:"https://overthewire.org/wargames/"},
+      {name:"HBH Wargames", url:"https://hbh.sh/home"},
+      {name:"HackThis Site", url:"https://www.hackthissite.org/"},
+      {name:"Google Gruyere Web Exploits", url:"https://google-gruyere.appspot.com/part1"},
+      {name:"CyberDefenders", url:"https://cyberdefenders.org/"},
+    ],
+    'Walkthroughs': [
+      {name:"IppSec (YouTube)", url:"https://www.youtube.com/@ippsec"},
+      {name:"John Hammond (YouTube)", url:"https://www.youtube.com/@_JohnHammond"},
+      {name:"LiveOverflow (YouTube)", url:"https://www.youtube.com/@LiveOverflow"},
+      {name:"Null Byte (YouTube)", url:"https://www.youtube.com/@NullByteWHT"},
+    ],
+  },
+  'n19': { // SIEM & Log Analysis
+    'SOC Labs': [
+      {name:"LetsDefend SOC", url:"https://app.letsdefend.io/homepage"},
+      {name:"CyberDefenders", url:"https://cyberdefenders.org/"},
+      {name:"Blue Team Labs Online", url:"https://blueteamlabs.online"},
+    ],
+    'Threat Intel': [
+      {name:"MITRE ATT&CK", url:"https://attack.mitre.org/"},
+      {name:"AlienVault OTX", url:"https://otx.alienvault.com/"},
+      {name:"Talos Intelligence", url:"https://talosintelligence.com/"},
+      {name:"GreyNoise Visualizer", url:"https://viz.greynoise.io/"},
+      {name:"AbuseIPDB (implied via Talos)", url:"https://talosintelligence.com/reputation_center/"},
+      {name:"ThreatFox IOCs", url:"https://threatfox.abuse.ch/"},
+      {name:"Feodo Tracker", url:"https://feodotracker.abuse.ch/"},
+      {name:"SSLBL", url:"https://sslbl.abuse.ch/"},
+      {name:"URLhaus", url:"https://urlhaus.abuse.ch/"},
+    ],
+  },
+  'n20': { // OSINT Techniques
+    'OSINT Tools': [
+      {name:"OSINT Framework", url:"https://osintframework.com/"},
+      {name:"Shodan", url:"https://www.shodan.io/"},
+      {name:"Censys Search", url:"https://search.censys.io/"},
+      {name:"FOFA Search Engine", url:"https://en.fofa.info/subject"},
+      {name:"DNSdumpster", url:"https://dnsdumpster.com/"},
+      {name:"crt.sh (Subdomains)", url:"https://crt.sh/"},
+      {name:"Hunter.io", url:"https://hunter.io/"},
+      {name:"Epieos OSINT", url:"https://epieos.com/"},
+      {name:"OSINT Industries", url:"https://osint.industries/"},
+      {name:"OSINT.SH", url:"https://osint.sh/"},
+      {name:"WhatsMyName", url:"https://whatsmyname.app/"},
+      {name:"SpiderFoot", url:"https://github.com/smicallef/spiderfoot"},
+      {name:"Sherlock (Username)", url:"https://github.com/sherlock-project/sherlock"},
+      {name:"GHunt (Google)", url:"https://github.com/mxrch/GHunt"},
+      {name:"Phonebook.cz", url:"https://phonebook.cz/"},
+      {name:"who.is WHOIS", url:"https://who.is/"},
+      {name:"BuiltWith", url:"https://builtwith.com/"},
+      {name:"HaveIBeenPwned", url:"https://haveibeenpwned.com/"},
+      {name:"LeakLookup", url:"https://leak-lookup.com/"},
+      {name:"Pastebin Search", url:"https://pastebin-search.com/"},
+      {name:"GrayHatWarfare Buckets", url:"https://grayhatwarfare.com/packages"},
+      {name:"Trickest Asset Inventory", url:"https://trickest.io/dashboard/solutions/public/a7cba1f1-df07-4a5c-876a-953f178996be"},
+      {name:"Awesome OSINT (GitHub)", url:"https://github.com/jivoi/awesome-osint"},
+      {name:"Awesome Shodan Queries", url:"https://github.com/jakejarvis/awesome-shodan-queries"},
+    ],
+    'Image & People': [
+      {name:"PimEyes Face Search", url:"https://pimeyes.com/en"},
+      {name:"FaceCheck ID", url:"https://facecheck.id/"},
+      {name:"TinEye Reverse Image", url:"https://tineye.com/"},
+      {name:"Wigle Wireless Mapping", url:"https://wigle.net/"},
+    ],
+    'Learning': [
+      {name:"IntelTechniques", url:"https://inteltechniques.com/"},
+    ],
+  },
+
+  // Phase 4 — Specialization
+  'n21': { // Active Directory Attacks
+    'AD Tools': [
+      {name:"Mimikatz", url:"https://github.com/gentilkiwi/mimikatz"},
+      {name:"Pypykatz (Mimikatz Python)", url:"https://github.com/skelsec/pypykatz"},
+      {name:"SharpSploit", url:"https://github.com/cobbr/SharpSploit"},
+      {name:"Seatbelt", url:"https://github.com/GhostPack/Seatbelt"},
+      {name:"AD Attack Defense", url:"https://github.com/infosecn1nja/AD-Attack-Defense"},
+      {name:"WinPEAS", url:"https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS"},
+      {name:"LOLBAS", url:"https://lolbas-project.github.io/"},
+      {name:"Priv2Admin", url:"https://github.com/gtworek/Priv2Admin"},
+      {name:"PrivescCheck", url:"https://github.com/itm4n/PrivescCheck"},
+      {name:"RogueWinRM", url:"https://github.com/antonioCoco/RogueWinRM"},
+    ],
+    'Reference': [
+      {name:"HackTricks", url:"https://book.hacktricks.xyz/welcome/readme"},
+      {name:"Windows Privesc (HackTricks)", url:"https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation"},
+      {name:"PayloadsAllTheThings Windows", url:"https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md"},
+    ],
+    'Training': [
+      {name:"TCM Security Academy", url:"https://academy.tcm-sec.com/courses/enrolled/2631779"},
+      {name:"HackTheBox", url:"https://app.hackthebox.com/home"},
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+    ],
+  },
+  'n22': { // Cloud Security
+    'Cloud Recon': [
+      {name:"GrayHatWarfare Buckets", url:"https://grayhatwarfare.com/packages"},
+      {name:"Shodan", url:"https://www.shodan.io/"},
+      {name:"Censys Search", url:"https://search.censys.io/"},
+    ],
+    'Training': [
+      {name:"Google Cloud Skills Boost", url:"https://www.cloudskillsboost.google/"},
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+      {name:"HackTheBox Academy", url:"https://academy.hackthebox.com/dashboard"},
+    ],
+  },
+  'n23': { // Malware Analysis
+    'Sandboxes & Analysis': [
+      {name:"ANY.RUN Sandbox", url:"https://any.run/"},
+      {name:"VirusTotal", url:"https://www.virustotal.com/gui/home/upload"},
+      {name:"Hybrid Analysis", url:"https://hybrid-analysis.com/"},
+      {name:"MalwareBazaar", url:"https://bazaar.abuse.ch/"},
+      {name:"MalShare", url:"https://www.malshare.com/"},
+      {name:"Malpedia", url:"https://malpedia.caad.fkie.fraunhofer.de/"},
+      {name:"theZoo Malware Repo", url:"https://github.com/ytisf/theZoo"},
+      {name:"VX-Underground", url:"https://www.vx-underground.org/"},
+    ],
+    'IOC & Threat Feeds': [
+      {name:"Feodo Tracker", url:"https://feodotracker.abuse.ch/"},
+      {name:"SSLBL", url:"https://sslbl.abuse.ch/"},
+      {name:"URLhaus", url:"https://urlhaus.abuse.ch/"},
+      {name:"ThreatFox IOCs", url:"https://threatfox.abuse.ch/"},
+      {name:"Talos Intelligence", url:"https://talosintelligence.com/"},
+      {name:"AlienVault OTX", url:"https://otx.alienvault.com/"},
+    ],
+    'Evasion Research': [
+      {name:"AMSI.fail", url:"http://amsi.fail/"},
+      {name:"Evasions Encyclopedia", url:"https://evasions.checkpoint.com/"},
+      {name:"DefenderCheck", url:"https://github.com/matterpreter/DefenderCheck"},
+      {name:"ThreatCheck", url:"https://github.com/rasta-mouse/ThreatCheck"},
+      {name:"al-khaser (VM Evasion)", url:"https://github.com/LordNoteworthy/al-khaser#al-khaser-v081"},
+    ],
+    'Blogs': [
+      {name:"cocomelonc Malware Blog", url:"https://cocomelonc.github.io/"},
+      {name:"Marcus Hutchins (MalwareTech)", url:"https://www.youtube.com/@MalwareTechBlog"},
+      {name:"Trellix Research", url:"https://www.trellix.com/en-us/about/newsroom/stories/research.html"},
+      {name:"Awesome Malware Dev", url:"https://github.com/rootkit-io/awesome-malware-development"},
+      {name:"Awesome Linux Rootkits", url:"https://github.com/tkmru/awesome-linux-rootkits"},
+      {name:"Malware Writeups", url:"https://github.com/albertzsigovits/malware-writeups"},
+    ],
+  },
+  'n24': { // DFIR
+    'Forensic Tools': [
+      {name:"ANY.RUN Sandbox", url:"https://any.run/"},
+      {name:"VirusTotal", url:"https://www.virustotal.com/gui/home/upload"},
+      {name:"Hybrid Analysis", url:"https://hybrid-analysis.com/"},
+      {name:"File Signatures Reference", url:"https://www.garykessler.net/library/file_sigs.html"},
+      {name:"CyberChef", url:"https://cyberchef.io/"},
+    ],
+    'SOC Labs': [
+      {name:"LetsDefend SOC", url:"https://app.letsdefend.io/homepage"},
+      {name:"CyberDefenders", url:"https://cyberdefenders.org/"},
+    ],
+    'Threat Intel': [
+      {name:"MITRE ATT&CK", url:"https://attack.mitre.org/"},
+      {name:"AlienVault OTX", url:"https://otx.alienvault.com/"},
+      {name:"ThreatFox IOCs", url:"https://threatfox.abuse.ch/"},
+      {name:"Feodo Tracker", url:"https://feodotracker.abuse.ch/"},
+      {name:"URLhaus", url:"https://urlhaus.abuse.ch/"},
+    ],
+  },
+  'n25': { // Advanced Exploitation
+    'Exploitation Resources': [
+      {name:"Exploit-DB", url:"https://www.exploit-db.com/"},
+      {name:"Rapid7 Vuln DB", url:"https://www.rapid7.com/db/"},
+      {name:"GTFOBins", url:"https://gtfobins.github.io/"},
+      {name:"LOLBAS", url:"https://lolbas-project.github.io/"},
+      {name:"Reverse Shell Generator", url:"https://www.revshells.com/"},
+      {name:"PayloadsAllTheThings", url:"https://github.com/swisskyrepo/PayloadsAllTheThings"},
+      {name:"FuzzDB Attack Payloads", url:"https://github.com/fuzzdb-project/fuzzdb/tree/master/attack"},
+    ],
+    'Blogs': [
+      {name:"xcellerator Blog", url:"https://xcellerator.github.io/"},
+      {name:"0xPat Red Team Blog", url:"https://0xpat.github.io/"},
+      {name:"S3cur3Th1sSh1t Blog", url:"https://s3cur3th1ssh1t.github.io/"},
+      {name:"The Wover (.NET / Red Team)", url:"https://thewover.github.io/"},
+      {name:"Improsec Tech Blog", url:"https://improsec.com/tech-blog/"},
+      {name:"LiveOverflow (YouTube)", url:"https://www.youtube.com/@LiveOverflow"},
+    ],
+  },
+  'n26': { // Mobile Security
+    'Tools & Learning': [
+      {name:"HackTheBox Academy", url:"https://academy.hackthebox.com/dashboard"},
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+      {name:"PortSwigger Web Academy", url:"https://portswigger.net/web-security"},
+    ],
+  },
+  'n27': { // Wireless Attacks
+    'Tools': [
+      {name:"Wigle Wireless Mapping", url:"https://wigle.net/"},
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+    ],
+  },
+  'n28': { // GRC & Compliance
+    'Frameworks': [
+      {name:"MITRE ATT&CK", url:"https://attack.mitre.org/"},
+      {name:"NVD Vuln Listing", url:"https://nvd.nist.gov/vuln/full-listing"},
+      {name:"CVE Database", url:"https://cve.mitre.org/"},
+      {name:"CVSS v3 Calculator", url:"https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator"},
+      {name:"CWE MITRE", url:"https://cwe.mitre.org/"},
+    ],
+  },
+
+  // Phase 5 — Expert
+  'n29': { // OSCP
+    'OSCP Prep': [
+      {name:"OffSec Portal", url:"https://portal.offsec.com/my-learning/in-progress"},
+      {name:"OffSec Labs", url:"https://www.offsec.com/labs/"},
+      {name:"OSCP Cheatsheets", url:"https://github.com/blackc03r/OSCP-Cheatsheets/tree/master"},
+      {name:"OSCP Prep Guide (TJNull)", url:"https://www.netsecfocus.com/oscp/2021/05/06/The_Journey_to_Try_Harder-_TJnull-s_Preparation_Guide_for_PEN-200_PWK_OSCP_2.0.html"},
+      {name:"HackTheBox", url:"https://app.hackthebox.com/home"},
+      {name:"VulnHub", url:"https://www.vulnhub.com/"},
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+      {name:"IppSec (YouTube)", url:"https://www.youtube.com/@ippsec"},
+    ],
+    'Tools': [
+      {name:"Reverse Shell Generator", url:"https://www.revshells.com/"},
+      {name:"PayloadsAllTheThings", url:"https://github.com/swisskyrepo/PayloadsAllTheThings"},
+      {name:"HackTricks Full Wiki", url:"https://book.hacktricks.xyz/welcome/readme"},
+      {name:"Pentestmonkey Cheat Sheets", url:"https://pentestmonkey.net/category/cheat-sheet"},
+      {name:"SecLists", url:"https://github.com/danielmiessler/SecLists"},
+      {name:"GTFOBins", url:"https://gtfobins.github.io/"},
+      {name:"LOLBAS", url:"https://lolbas-project.github.io/"},
+      {name:"Exploit-DB", url:"https://www.exploit-db.com/"},
+    ],
+  },
+  'n30': { // CISSP
+    'Training': [
+      {name:"Cybrary", url:"https://www.cybrary.it/"},
+      {name:"MIT OpenCourseWare", url:"https://ocw.mit.edu/"},
+      {name:"Harvard Cybersecurity", url:"https://pll.harvard.edu/subject/cybersecurity"},
+    ],
+  },
+  'n31': { // Red Team Operations
+    'Red Team Tools': [
+      {name:"Mimikatz", url:"https://github.com/gentilkiwi/mimikatz"},
+      {name:"SharpSploit", url:"https://github.com/cobbr/SharpSploit"},
+      {name:"Seatbelt", url:"https://github.com/GhostPack/Seatbelt"},
+      {name:"AD Attack Defense", url:"https://github.com/infosecn1nja/AD-Attack-Defense"},
+      {name:"AMSI.fail", url:"http://amsi.fail/"},
+      {name:"DefenderCheck", url:"https://github.com/matterpreter/DefenderCheck"},
+      {name:"ThreatCheck", url:"https://github.com/rasta-mouse/ThreatCheck"},
+      {name:"Evasions Encyclopedia", url:"https://evasions.checkpoint.com/"},
+      {name:"Red Teaming Toolkit", url:"https://0xsp.com/offensive/red-teaming-toolkit-collection/"},
+      {name:"VX-Underground", url:"https://www.vx-underground.org/"},
+    ],
+    'Blogs': [
+      {name:"Dark Operator Blog", url:"https://www.darkoperator.com/"},
+      {name:"S3cur3Th1sSh1t Blog", url:"https://s3cur3th1ssh1t.github.io/"},
+      {name:"0xPat Red Team Blog", url:"https://0xpat.github.io/"},
+      {name:"The Wover (.NET / Red Team)", url:"https://thewover.github.io/"},
+      {name:"Improsec Tech Blog", url:"https://improsec.com/tech-blog/"},
+      {name:"Capt. Meelo Blog", url:"https://captmeelo.com/"},
+      {name:"NCC Group Research", url:"https://research.nccgroup.com/"},
+      {name:"Awesome Malware Dev", url:"https://github.com/rootkit-io/awesome-malware-development"},
+    ],
+  },
+  'n32': { // Reverse Engineering
+    'RE Tools': [
+      {name:"Ghidra NSA", url:"https://ghidra-sre.org/"},
+      {name:"x64dbg Debugger", url:"https://x64dbg.com/"},
+      {name:"radare2", url:"https://radare.org/"},
+      {name:"IDA Free", url:"https://hex-rays.com/ida-free"},
+    ],
+    'Malware Samples': [
+      {name:"MalwareBazaar", url:"https://bazaar.abuse.ch/"},
+      {name:"MalShare", url:"https://www.malshare.com/"},
+      {name:"Malpedia", url:"https://malpedia.caad.fkie.fraunhofer.de/"},
+      {name:"theZoo Malware Repo", url:"https://github.com/ytisf/theZoo"},
+      {name:"VX-Underground", url:"https://www.vx-underground.org/"},
+    ],
+    'Learning': [
+      {name:"xcellerator Blog", url:"https://xcellerator.github.io/"},
+      {name:"cocomelonc Malware Blog", url:"https://cocomelonc.github.io/"},
+      {name:"LiveOverflow (YouTube)", url:"https://www.youtube.com/@LiveOverflow"},
+      {name:"Awesome Linux Rootkits", url:"https://github.com/tkmru/awesome-linux-rootkits"},
+      {name:"Malware Writeups", url:"https://github.com/albertzsigovits/malware-writeups"},
+    ],
+  },
+  'n33': { // Bug Bounty
+    'Bug Bounty Platforms': [
+      {name:"HackerOne", url:"https://hackerone.com/opportunities/all"},
+      {name:"Bugcrowd", url:"https://bugcrowd.com/dashboard"},
+      {name:"Open Bug Bounty", url:"https://www.openbugbounty.org/"},
+      {name:"Google Bug Hunters", url:"https://bughunters.google.com/report"},
+      {name:"Bug Bounty Hunter Reports", url:"https://www.bugbountyhunter.com/disclosed/"},
+    ],
+    'Recon Tools': [
+      {name:"Shodan", url:"https://www.shodan.io/"},
+      {name:"Censys Search", url:"https://search.censys.io/"},
+      {name:"crt.sh (Subdomains)", url:"https://crt.sh/"},
+      {name:"Trickest Asset Inventory", url:"https://trickest.io/dashboard/solutions/public/a7cba1f1-df07-4a5c-876a-953f178996be"},
+      {name:"SpiderFoot", url:"https://github.com/smicallef/spiderfoot"},
+      {name:"Feroxbuster (Dir Busting)", url:"https://github.com/epi052/feroxbuster"},
+      {name:"Assetnote Wordlists", url:"http://wordlists.assetnote.io/"},
+    ],
+    'References & Cheatsheets': [
+      {name:"Bugcrowd VRT", url:"https://bugcrowd.com/vulnerability-rating-taxonomy"},
+      {name:"CVSS v3 Calculator", url:"https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator"},
+      {name:"AllAboutBugBounty (GitHub)", url:"https://github.com/daffainfo/AllAboutBugBounty"},
+      {name:"Awesome Oneliner Bug Bounty", url:"https://github.com/dwisiswant0/awesome-oneliner-bugbounty"},
+      {name:"Bug Bounty Labs", url:"https://github.com/leetCipher/bug-bounty-labs"},
+      {name:"Lissy93 Bug Bounties", url:"https://github.com/Lissy93/bug-bounties/tree/main"},
+      {name:"Bug Bounty Cheatsheet", url:"https://m0chan.github.io/2019/12/17/Bug-Bounty-Cheetsheet.html"},
+      {name:"Live Bug Bounty Hunting Blog", url:"https://blog.amrelsagaei.com/live-bug-bounty-hunting"},
+    ],
+    'YouTube': [
+      {name:"STÖK (Bug Bounty)", url:"https://www.youtube.com/@STOKfredrik"},
+      {name:"NahamSec", url:"https://www.youtube.com/@NahamSec"},
+      {name:"InsiderPhD", url:"https://www.youtube.com/@InsiderPhD"},
+      {name:"jhaddix", url:"https://www.youtube.com/@jhaddix"},
+    ],
+  },
+  'n34': { // Threat Intelligence
+    'Threat Intel Platforms': [
+      {name:"MITRE ATT&CK", url:"https://attack.mitre.org/"},
+      {name:"AlienVault OTX", url:"https://otx.alienvault.com/"},
+      {name:"Talos Intelligence", url:"https://talosintelligence.com/"},
+      {name:"GreyNoise Visualizer", url:"https://viz.greynoise.io/"},
+      {name:"ThreatFox IOCs", url:"https://threatfox.abuse.ch/"},
+      {name:"Feodo Tracker", url:"https://feodotracker.abuse.ch/"},
+      {name:"SSLBL", url:"https://sslbl.abuse.ch/"},
+      {name:"URLhaus", url:"https://urlhaus.abuse.ch/"},
+      {name:"Malpedia", url:"https://malpedia.caad.fkie.fraunhofer.de/"},
+      {name:"VX-Underground", url:"https://www.vx-underground.org/"},
+    ],
+    'OSINT for TI': [
+      {name:"Shodan", url:"https://www.shodan.io/"},
+      {name:"Censys Search", url:"https://search.censys.io/"},
+      {name:"urlscan.io", url:"https://urlscan.io/"},
+      {name:"HaveIBeenPwned", url:"https://haveibeenpwned.com/"},
+    ],
+  },
+  'n35': { // GIAC Certs
+    'Training': [
+      {name:"Cybrary", url:"https://www.cybrary.it/"},
+      {name:"TryHackMe", url:"https://tryhackme.com/"},
+      {name:"HackTheBox Academy", url:"https://academy.hackthebox.com/dashboard"},
+      {name:"ENISA Training", url:"https://www.enisa.europa.eu/topics/training-and-exercises/trainings-for-cybersecurity-specialists/online-training-material/technical-operational/#vulnerability"},
+    ],
+  },
+  'n36': { // Security Research & CVEs
+    'Research Resources': [
+      {name:"CVE Database", url:"https://cve.mitre.org/"},
+      {name:"NVD Vuln Listing", url:"https://nvd.nist.gov/vuln/full-listing"},
+      {name:"Exploit-DB", url:"https://www.exploit-db.com/"},
+      {name:"NCC Group Research", url:"https://research.nccgroup.com/"},
+      {name:"Hacking Articles", url:"https://www.hackingarticles.in/"},
+      {name:"DEF CON (YouTube)", url:"https://www.youtube.com/@DEFCONConference"},
+      {name:"Black Hat (YouTube)", url:"https://www.youtube.com/@BlackHatOfficialYT"},
+      {name:"Hacker News (YC)", url:"https://news.ycombinator.com/"},
+      {name:"Krebs on Security", url:"https://krebsonsecurity.com/"},
+      {name:"DigiNinja Blog", url:"https://digi.ninja/blog.php"},
+    ],
+  },
+};
+
+// ─── STATE ──────────────────────────────────────────────────────────────────
+
+let done = new Set(JSON.parse(localStorage.getItem('csrm-done') || '[]'));
+let totalNodes = 0;
+
+function saveDone(){localStorage.setItem('csrm-done',JSON.stringify([...done]));}
+
+// ─── RENDER ─────────────────────────────────────────────────────────────────
+
+function renderRoadmap(){
+  const container = document.getElementById('roadmapContainer');
+  let html = '';
+  totalNodes = 0;
+
+  PHASES.forEach((phase, pi) => {
+    totalNodes += phase.nodes.length;
+    html += `
+    <div class="phase" id="phase-${phase.id}" style="--phase-color:${phase.color};--phase-rgb:${phase.rgb}">
+      <div class="phase-header">
+        <div class="phase-num">${phase.num}</div>
+        <div class="phase-info">
+          <div class="phase-title">${phase.title}</div>
+          <div class="phase-sub">${phase.sub}</div>
+        </div>
+        <div class="phase-xp">${phase.xp}</div>
+      </div>
+      <div class="nodes">
+        ${phase.nodes.map(node => renderNode(node, phase)).join('')}
+      </div>
+    </div>`;
+    if(pi < PHASES.length - 1){
+      html += `<div class="phase-connector"><div class="connector-line"></div></div>`;
+    }
+  });
+
+  container.innerHTML = html;
+  updateProgress();
+}
+
+function renderNode(node, phase){
+  const isDone = done.has(node.id);
+  return `
+  <div class="node${isDone?' done':''}" id="node-${node.id}"
+    style="--node-color:${phase.color};--node-rgb:${phase.rgb}"
+    onclick="openDetail('${node.id}','${phase.id}')">
+    <div class="node-top">
+      <div class="node-icon">${node.icon}</div>
+      <div class="node-tags">
+        ${node.tags.map(t=>`<span class="node-tag tag-${t}">${t}</span>`).join('')}
+      </div>
+    </div>
+    <div class="node-title">${node.title}</div>
+    <div class="node-desc">${node.desc}</div>
+    <div class="node-resources">
+      ${node.resources.slice(0,2).map(r=>`<div class="node-res">${r.name}</div>`).join('')}
+    </div>
+    <div class="node-footer">
+      <div class="node-time">⏱ ${node.time}</div>
+      <div class="node-check" onclick="event.stopPropagation();toggleDone('${node.id}')">${isDone?'✓':''}</div>
+    </div>
+  </div>`;
+}
+
+function renderTracks(){
+  const grid = document.getElementById('tracksGrid');
+  grid.innerHTML = TRACKS.map(t=>`
+    <div class="track-card" style="--track-color:${t.color}">
+      <div class="track-icon">${t.icon}</div>
+      <div class="track-title">${t.title}</div>
+      <div class="track-desc">${t.desc}</div>
+      <div class="track-certs">${t.certs.map(c=>`<span class="track-cert">${c}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+// ─── DETAIL PANEL ────────────────────────────────────────────────────────────
+
+function openDetail(nodeId, phaseId){
+  const phase = PHASES.find(p=>p.id===phaseId);
+  const node = phase.nodes.find(n=>n.id===nodeId);
+  const isDone = done.has(nodeId);
+
+  document.documentElement.style.setProperty('--detail-color', phase.color);
+  document.documentElement.style.setProperty('--detail-rgb', phase.rgb);
+
+  document.getElementById('detailContent').innerHTML = `
+    <div style="margin-top:10px">
+      <div class="detail-phase-label">Phase ${phase.id} — ${phase.title}</div>
+      <div class="detail-title">${node.icon} ${node.title}</div>
+      <div class="detail-desc">${node.desc} Learn this topic deeply — it will come up repeatedly throughout your career.</div>
+
+      <div class="detail-section">
+        <div class="detail-section-title">Time Investment</div>
+        <div style="font-family:var(--mono);font-size:13px;color:var(--text);padding:10px 14px;background:var(--panel);border:1px solid var(--border)">⏱ ${node.time}</div>
+      </div>
+
+      <div class="detail-section">
+        <div class="detail-section-title">Resources & Links</div>
+        ${node.resources.map(r=>`
+          <a href="${r.url}" target="_blank" class="detail-link">
+            <div class="detail-link-icon">🔗</div>
+            <div class="detail-link-info">
+              <span class="detail-link-name">${r.name}</span>
+              <span class="detail-link-sub">${r.url}</span>
+            </div>
+            <span class="detail-link-tag">${r.tag}</span>
+          </a>`).join('')}
+      </div>
+
+      ${node.tags.includes('cert') ? `
+      <div class="detail-section">
+        <div class="detail-section-title">Certification Info</div>
+        <div style="font-size:12px;color:var(--text2);padding:12px;background:var(--panel);border:1px solid var(--border);line-height:1.8">
+          This node covers a certification milestone. Mark it as complete after passing the exam.
+        </div>
+      </div>` : ''}
+
+      <button class="detail-mark-btn${isDone?' done':''}" id="detailMarkBtn" onclick="toggleDone('${nodeId}');updateDetailBtn('${nodeId}')">
+        ${isDone ? '✓ Completed — Click to undo' : 'Mark as Complete'}
+      </button>
+
+      ${getRelatedBookmarks(nodeId)}
+    </div>`;
+
+  document.getElementById('detailPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+}
+
+function updateDetailBtn(nodeId){
+  const isDone = done.has(nodeId);
+  const btn = document.getElementById('detailMarkBtn');
+  if(btn){
+    btn.className = 'detail-mark-btn' + (isDone?' done':'');
+    btn.textContent = isDone ? '✓ Completed — Click to undo' : 'Mark as Complete';
+  }
+}
+
+function closeDetail(){
+  document.getElementById('detailPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ─── PROGRESS ────────────────────────────────────────────────────────────────
+
+function toggleDone(nodeId){
+  if(done.has(nodeId)) done.delete(nodeId);
+  else done.add(nodeId);
+  saveDone();
+
+  const nodeEl = document.getElementById('node-'+nodeId);
+  if(nodeEl){
+    const checkEl = nodeEl.querySelector('.node-check');
+    if(done.has(nodeId)){
+      nodeEl.classList.add('done');
+      checkEl.textContent = '✓';
+    } else {
+      nodeEl.classList.remove('done');
+      checkEl.textContent = '';
+    }
+  }
+  updateProgress();
+}
+
+function updateProgress(){
+  const pct = totalNodes > 0 ? Math.round(done.size / totalNodes * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('stat-done').textContent = done.size;
+  document.getElementById('stat-nodes').textContent = totalNodes;
+}
+
+function resetProgress(){
+  if(confirm('Reset all progress?')){
+    done.clear();saveDone();
+    renderRoadmap();
+  }
+}
+
+// ─── FILTER ──────────────────────────────────────────────────────────────────
+
+function filterPhase(phaseId, btn){
+  document.querySelectorAll('.phase-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.phase').forEach(p=>{
+    p.style.display = (phaseId==='all'||p.id==='phase-'+phaseId) ? '' : 'none';
+  });
+  document.querySelectorAll('.phase-connector').forEach(c=>{
+    c.style.display = phaseId==='all' ? '' : 'none';
+  });
+}
+
+// ─── PARTICLES ──────────────────────────────────────────────────────────────
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let W, H;
+
+function resizeCanvas(){
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function Particle(){
+  this.x = Math.random() * W;
+  this.y = Math.random() * H;
+  this.vx = (Math.random() - 0.5) * 0.3;
+  this.vy = (Math.random() - 0.5) * 0.3;
+  this.size = Math.random() * 1.5 + 0.5;
+  this.alpha = Math.random() * 0.4 + 0.1;
+  this.color = Math.random() > 0.7 ? '#39ff14' : '#00e5ff';
+}
+
+Particle.prototype.update = function(){
+  this.x += this.vx;
+  this.y += this.vy;
+  if(this.x<0)this.x=W;if(this.x>W)this.x=0;
+  if(this.y<0)this.y=H;if(this.y>H)this.y=0;
+};
+
+function initParticles(){
+  particles = [];
+  for(let i=0;i<80;i++) particles.push(new Particle());
+}
+
+function drawParticles(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.update();
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle = p.color + Math.floor(p.alpha*255).toString(16).padStart(2,'0');
+    ctx.fill();
+  });
+
+  // Draw connections
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx = particles[i].x-particles[j].x;
+      const dy = particles[i].y-particles[j].y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist<100){
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle = `rgba(0,229,255,${0.06*(1-dist/100)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+
+// ─── SCROLL ANIMATIONS ───────────────────────────────────────────────────────
+
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+},{threshold:0.1});
+
+// ─── BOOKMARKS ───────────────────────────────────────────────────────────────
+
+function getRelatedBookmarks(nodeId) {
+  const nodeBooks = NODE_BOOKMARKS[nodeId];
+  if(!nodeBooks || Object.keys(nodeBooks).length === 0) return '';
+  
+  let html = `<div class="detail-section">
+    <div class="detail-section-title">📚 Your Bookmarks for This Topic</div>`;
+  
+  Object.entries(nodeBooks).forEach(([category, links]) => {
+    html += `<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+      <div style="font-family:var(--display);font-size:11px;color:var(--detail-color,var(--cyan));text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;font-weight:700">${category}</div>`;
+    links.forEach(b => {
+      html += `<a href="${b.url}" target="_blank" class="detail-link">
+        <div class="detail-link-icon">🔖</div>
+        <div class="detail-link-info">
+          <span class="detail-link-name">${b.name}</span>
+          <span class="detail-link-sub">${b.url.replace('https://','').replace('http://','').split('/')[0]}</span>
+        </div>
+        <span class="detail-link-tag" style="color:var(--yellow);border-color:rgba(255,230,0,.3)">link</span>
+      </a>`;
+    });
+    html += `</div>`;
+  });
+  
+  html += `</div>`;
+  return html;
+}
+
+let bmCatFilter = 'all';
+
+function showBookmarks() {
+  const sec = document.getElementById('bookmarks');
+  sec.style.display = sec.style.display === 'none' ? '' : 'none';
+  if(sec.style.display !== 'none') {
+    renderBookmarkFilters();
+    filterBookmarks();
+    sec.scrollIntoView({behavior:'smooth'});
+  }
+}
+
+function renderBookmarkFilters() {
+  const el = document.getElementById('bm-cat-filters');
+  el.innerHTML = `<button class="phase-btn active" onclick="filterBookmarks()">🔍 Search results grouped by topic node</button>`;
+}
+
+function filterBookmarks() {
+  const grid = document.getElementById('bm-grid');
+  const q = (document.getElementById('bm-search')?.value || '').toLowerCase();
+  
+  let results = [];
+  Object.entries(NODE_BOOKMARKS).forEach(([nodeId, categories]) => {
+    Object.entries(categories).forEach(([catName, links]) => {
+      links.forEach(link => {
+        if(q && !link.name.toLowerCase().includes(q) && !link.url.toLowerCase().includes(q)) return;
+        results.push({nodeId, catName, ...link});
+      });
+    });
+  });
+
+  if(!results.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);font-family:var(--mono);font-size:12px">No bookmarks found</div>';
+    return;
+  }
+
+  // Group by nodeId + category
+  const grouped = {};
+  results.forEach(r => {
+    const key = `${r.nodeId}|${r.catName}`;
+    if(!grouped[key]) grouped[key] = [];
+    grouped[key].push(r);
+  });
+
+  let html = '';
+  Object.entries(grouped).forEach(([key, items]) => {
+    const [nodeId, catName] = key.split('|');
+    const phase = PHASES.find(p => p.nodes.some(n => n.id === nodeId));
+    const node = phase?.nodes.find(n => n.id === nodeId);
+    
+    html += `<div style="grid-column:1/-1;margin-top:16px;padding:14px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r2)">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="font-size:18px">${node?.icon || '📚'}</div>
+        <div>
+          <div style="font-family:var(--display);font-weight:700;font-size:12px;color:var(--text)">${node?.title || 'Unknown'}</div>
+          <div style="font-size:10px;color:var(--detail-color,var(--cyan));letter-spacing:1px">${catName}</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px">
+        ${items.map(b => `
+          <a href="${b.url}" target="_blank" style="text-decoration:none">
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px;font-size:10px;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor='var(--cyan)';this.style.background='var(--bg3)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+              <div style="font-weight:600;color:var(--text);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.name}</div>
+              <div style="color:var(--text3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${b.url.replace('https://','').replace('http://','').split('/')[0]}</div>
+            </div>
+          </a>
+        `).join('')}
+      </div>
+    </div>`;
+  });
+
+  grid.innerHTML = html;
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+
+renderRoadmap();
+renderTracks();
+resizeCanvas();
+initParticles();
+drawParticles();
+
+window.addEventListener('resize',()=>{resizeCanvas();});
+
+document.querySelectorAll('.phase').forEach(p=>observer.observe(p));
+
+// Animated counter
+function animateCounter(el,target,duration=1200){
+  let start=0;
+  const step=timestamp=>{
+    if(!start) start=timestamp;
+    const progress=Math.min((timestamp-start)/duration,1);
+    el.textContent=Math.floor(progress*target);
+    if(progress<1) requestAnimationFrame(step);
+    else el.textContent=target;
+  };
+  requestAnimationFrame(step);
+}
+
+setTimeout(()=>{
+  animateCounter(document.getElementById('stat-nodes'),totalNodes);
+},500);
+</script>
+</body>
+</html>
